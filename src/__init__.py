@@ -7,10 +7,4 @@ __version__ = "0.1.0"
 __author__ = "Alibaba Cloud"
 __description__ = "阿里云百炼大模型工具集"
 
-from .models import *
-from .text import *
-from .image import *
-from .video import *
-from .audio import *
-from .vector import *
-from .chat import *
+from .image import Text2ImageGenerator, ImageGenerationRequest, ImageGenerationResponse
