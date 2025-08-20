@@ -10,7 +10,8 @@ from .models import (
     ImageGenerationResponse, 
     TaskCreationResponse,
     TaskStatus,
-    ImageResult
+    ImageResult,
+    ModelType
 )
 
 
@@ -62,18 +63,26 @@ class Text2ImageGenerator:
         """
         url = f"{self.base_url}/services/aigc/text2image/image-synthesis"
         
+        validation = request.validate_for_model()
+        if not validation["valid"]:
+            raise ValueError("; ".join(validation["errors"]))
+
         payload = {
             "model": request.model,
             "input": {
                 "prompt": request.prompt
             },
             "parameters": {
-                "size": request.size.value,
+                "size": str(request.size),
                 "n": request.n,
                 "prompt_extend": request.prompt_extend,
                 "watermark": request.watermark
             }
         }
+        
+        # 万相模型特有的seed参数
+        if request.seed is not None and request.model.startswith("wan"):
+            payload["parameters"]["seed"] = request.seed
         
         if request.negative_prompt:
             payload["input"]["negative_prompt"] = request.negative_prompt
@@ -190,9 +199,12 @@ class Text2ImageGenerator:
         self, 
         prompt: str,
         negative_prompt: Optional[str] = None,
-        size: str = "1328*1328",
+        size: str = "1024*1024",
+        model: str = ModelType.WAN2_2_FLASH,
         prompt_extend: bool = True,
         watermark: bool = False,
+        n: int = 1,
+        seed: Optional[int] = None,
         **kwargs
     ) -> ImageGenerationResponse:
         """
@@ -211,21 +223,19 @@ class Text2ImageGenerator:
         """
         from .models import ImageGenerationRequest, ImageSize
         
-        # 映射字符串到枚举
-        size_map = {
-            "1328*1328": ImageSize.SQUARE_1328,
-            "1664*928": ImageSize.WIDESCREEN_1664,
-            "1472*1140": ImageSize.LANDSCAPE_1472,
-            "1140*1472": ImageSize.PORTRAIT_1140,
-            "928*1664": ImageSize.TALL_928
-        }
+        # 处理千问模型的尺寸限制
+        if model == ModelType.QWEN and size not in ["1328*1328", "1664*928", "1472*1140", "1140*1472", "928*1664"]:
+            size = "1328*1328"  # 千问模型默认尺寸
         
         request = ImageGenerationRequest(
             prompt=prompt,
             negative_prompt=negative_prompt,
-            size=size_map.get(size, ImageSize.SQUARE_1328),
+            size=size,
+            model=model,
             prompt_extend=prompt_extend,
             watermark=watermark,
+            n=n,
+            seed=seed,
             **kwargs
         )
         

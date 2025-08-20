@@ -1,6 +1,21 @@
-# 🚀 快速开始 - 直接生成图片
+# 🚀 阿里百炼快速开始 - 全功能入口
 
-## 多种输入方式，支持文件读取
+## 🎯 项目概述
+阿里百炼工具箱 - 一站式AI内容生成平台，支持文生图、文生文、文生视频、语音合成等全功能。
+
+## 📋 功能总览
+
+| 功能模块 | 命令文件 | 核心模型 | 特色能力 |
+|---------|----------|----------|----------|
+| **🎨 文生图** | `text2image.py` | qwen-image / wan系列 | 文字渲染、创意生成 |
+| **📝 文生文** | `text2text.py` | qwen-turbo/plus/max | 文本创作、问答对话 |
+| **🎬 文生视频** | `text2video.py` | wan2.1-t2v系列 | 视频生成、动态创作 |
+| **🎵 语音合成** | `text2speech.py` | sambert系列 | 中文/英文语音合成 |
+| **🎤 语音识别** | `speech2text.py` | paraformer系列 | 中文/英文语音转文字 |
+
+---
+
+## 🚀 快速上手
 
 ### 1. 设置API密钥（仅需一次）
 ```bash
@@ -11,196 +26,109 @@ set DASHSCOPE_API_KEY=sk-你的阿里云百炼密钥
 export DASHSCOPE_API_KEY=sk-你的阿里云百炼密钥
 ```
 
-### 2. 直接生成图片
-
-#### **方式1：命令行直接输入**
+### 2. 文生图 - 立即开始
 ```bash
-python generate.py "一只可爱的猫咪"
-```
+# 直接输入提示词
+python text2image.py "一只可爱的猫咪"
 
-#### **方式2：从文本文件读取**
-```bash
 # 使用示例文件
-python generate.py -f examples/prompts.txt
+python text2image.py -f examples/prompts.json
 
-# 使用自己的文本文件
-python generate.py -f my_prompts.txt
+# 指定模型和参数
+python text2image.py "古风少女" --model qwen-image --size 1140*1472
 ```
 
-**文本文件格式** (`my_prompts.txt`):
-```
-# 这是注释，会被忽略
-一只可爱的橘猫，卡通风格
-山水画，青山绿水，水墨风格
-古风美女，汉服，樱花树下
-```
-
-#### **方式3：从JSON文件读取（推荐）**
+### 3. 其他功能（即将推出）
 ```bash
-# 使用示例文件
-python generate.py -f examples/prompts.json
+# 文生文 - 创作文章
+python text2text.py "写一篇关于人工智能的科普文章" --model qwen-turbo
 
-# 使用自己的JSON文件
-python generate.py -f my_config.json
+# 文生视频 - 生成短片
+python text2video.py "日出延时摄影" --model wan2.1-t2v-plus --duration 10
+
+# 语音合成 - 生成语音
+python text2speech.py "欢迎收听今天的AI科技播客" --model sambert-zhichu-v1
 ```
 
-**JSON文件格式** (`my_config.json`):
-```json
-{
-  "prompts": [
-    {
-      "prompt": "详细的提示词描述",
-      "negative": "不希望在图像中出现的内容",
-      "size": "1472*1140",
-      "watermark": false,
-      "filename": "custom_name.png"
-    }
-  ]
-}
-```
+---
 
-#### **方式4：批量处理**
+## 🎨 文生图功能详解
+
+### 支持的模型
+- **千问模型** (`qwen-image`): 中文文字渲染、对联设计、诗词配图
+- **万相模型** (`wan2.2-t2i-flash`): 创意生成、批量出图、灵活尺寸
+
+### 尺寸选择
+| 使用场景 | 推荐尺寸 | 模型支持 |
+|---------|----------|----------|
+| **手机壁纸** | 1080×1920 (9:16) | 万相模型 |
+| **电脑壁纸** | 1920×1080 (16:9) | 万相模型 |
+| **社媒配图** | 1080×1080 (1:1) | 万相模型 |
+| **竖版海报** | 1140×1472 (3:4) | 千问模型 |
+| **横版横幅** | 1664×928 (16:9) | 千问模型 |
+
+### 快速测试命令
 ```bash
-# 批量生成多个图片
-python generate.py -b examples/prompts.json
+# 测试千问文字渲染
+python text2image.py "中文对联：福满人间春满园" --model qwen-image --size 1472*1140
+
+# 测试万相创意生成
+python text2image.py "赛博朋克城市夜景" --model wan2.2-t2i-flash --size 1440*810
+
+# 批量生成
+python text2image.py "可爱猫咪" --model wan2.2-t2i-flash --n 4 --size 512*512
 ```
 
-### 3. 命令行参数
+---
 
-#### **通用参数**
-```bash
-python generate.py [输入方式] [选项]
-
-输入方式（三选一）:
-  "直接提示词"           直接输入提示词
-  -f, --file FILE       从文件读取提示词
-  -b, --batch FILE      批量处理JSON文件
-
-选项:
-  --size SIZE           图像尺寸 (1328*1328/1664*928/1472*1140/1140*1472/928*1664)
-  --negative TEXT       反向提示词
-  --api-key KEY         API密钥
-  --output DIR          输出目录 (默认: ./generated_images)
-  --filename NAME       输出文件名
-  --watermark           添加水印标识（默认不添加）
-  --no-extend           不开启智能改写
+## 📁 文件结构
+```
+阿里百炼/
+├── text2image.py      # 文生图主程序
+├── text2text.py       # 文生文主程序（未来推出）
+├── text2video.py      # 文生视频主程序（未来推出）
+├── text2speech.py     # 语音合成主程序（未来推出）
+├── speech2text.py     # 语音识别主程序（未来推出）
+├── examples/
+│   ├── prompts.json   # 文生图示例配置
+│   └── prompts.txt    # 文生图文本示例
+├── docs/
+│   ├── text2image_prompt_guide.md  # 文生图指南
+│   └── api_reference.md           # 完整API文档
+└── src/
+    ├── image/         # 文生图模块
+    ├── text/          # 文生文模块
+    ├── video/         # 文生视频模块
+    ├── audio/         # 音频处理模块
+    └── models/        # 模型定义
 ```
 
-### 4. 使用示例
+---
 
-#### **简单文本文件使用**
-创建 `my_prompts.txt`:
-```
-# 可爱动物
-一只微笑的柴犬，白色背景，卡通风格
-小熊猫抱着竹子，森林环境，写实风格
+## 💡 使用建议
 
-# 风景
-中国山水画，青山绿水，晨雾缭绕
-樱花盛开的日本街道，粉色花瓣飘落
+### 新手建议
+1. **从文生图开始**：`python text2image.py -f examples/prompts.json`
+2. **参考官方指南**：查看 `docs/text2image_prompt_guide.md`
+3. **逐步尝试**：先用简单提示词，再添加细节描述
 
-# 人物
-古风美女，汉服，樱花树下，唯美光线
-赛博朋克女孩，霓虹灯下，未来城市背景
-```
+### 进阶用户
+1. **使用JSON配置**：批量处理复杂参数
+2. **探索不同模型**：千问vs万相的差异化能力
+3. **尝试不同尺寸**：根据使用场景选择最佳比例
 
-运行：
-```bash
-# 处理所有提示词（批量模式）
-python generate.py -f my_prompts.txt
+---
 
-# 处理所有提示词到指定目录
-python generate.py -f my_prompts.txt --output ./my_images
+## 📞 技术支持
+- **官方文档**: https://help.aliyun.com/document_detail/2587504.html
+- **提示词指南**: docs/text2image_prompt_guide.md
+- **完整API参考**: docs/api_reference.md
 
-# 处理所有提示词并添加水印
-python generate.py -f my_prompts.txt --watermark
-```
+---
 
-**注意：**
-- 文本文件中的每行（非空、非注释）都会生成一张图片
-- 支持批量处理，自动生成文件名
-- 使用 `-b` 参数处理JSON文件时，会按照JSON中的配置逐个处理
-
-#### **高级JSON文件使用**
-创建 `advanced_config.json`:
-```json
-{
-  "prompts": [
-    {
-      "prompt": "宫崎骏风格，阳光下的古街，青衫弟子手拿阿里云卡片",
-      "negative": "模糊,低质量,畸形",
-      "size": "1472*1140",
-      "watermark": false,
-      "prompt_extend": true,
-      "filename": "阿里云古风街景.png"
-    },
-    {
-      "prompt": "未来科技实验室，全息投影，科学家操作AI界面",
-      "negative": "黑暗,混乱,低分辨率",
-      "size": "1664*928",
-      "watermark": false,
-      "filename": "未来实验室.png"
-    }
-  ]
-}
-```
-
-#### **批量生成**
-```bash
-# 批量生成所有配置
-python generate.py -b advanced_config.json
-
-# 批量生成到指定目录
-python generate.py -b advanced_config.json --output ./my_images
-```
-
-#### **组合使用**
-```bash
-# 从文件读取，指定输出目录
-python generate.py -f my_prompts.txt --output ./cute_animals --size 1328*1328
-
-# 批量处理，添加水印
-python generate.py -b batch_config.json --watermark --output ./with_watermark
-```
-
-### 5. 支持的文件格式
-
-#### **文本文件 (.txt)**
-- 每行一个提示词
-- 支持空行（自动忽略）
-- 支持注释（以#开头）
-
-#### **JSON文件 (.json)**
-- 结构化配置
-- 支持完整参数（提示词、反向提示、尺寸、文件名等）
-- 支持批量处理
-
-### 6. 输出结果
-
-所有生成的图片会自动保存在：
-- 默认：`./generated_images/`
-- 自定义：`--output` 指定的目录
-
-文件命名：
-- 文本文件：自动生成（基于提示词内容）
-- JSON文件：使用配置的`filename`字段
-
-### 7. 快速测试
-
-```bash
-# 测试文本文件
-python generate.py -f examples/prompts.txt
-
-# 测试JSON文件
-python generate.py -f examples/prompts.json
-
-# 测试批量处理
-python generate.py -b examples/prompts.json
-```
-
-现在你可以：
-- ✅ 直接在命令行输入提示词
-- ✅ 从文本文件批量读取简单提示词
-- ✅ 从JSON文件读取完整配置
-- ✅ 批量生成多张图片
-- ✅ 管理复杂的提示词集合
+## 🔄 版本更新
+- **v1.0**: 基础文生图功能 (`text2image.py`)
+- **v1.1**: 千问/万相双模型支持
+- **v1.2**: 即将推出文生文 (`text2text.py`)
+- **v1.3**: 即将推出文生视频 (`text2video.py`)
+- **v1.4**: 即将推出语音功能 (`text2speech.py`, `speech2text.py`)

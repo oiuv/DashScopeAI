@@ -137,13 +137,40 @@ class PromptFileReader:
             'size': str(config.get('size', '1328*1328')),
             'watermark': bool(config.get('watermark', False)),
             'prompt_extend': bool(config.get('prompt_extend', config.get('extend', True))),
+            'model': str(config.get('model', 'wan2.2-t2i-flash')),
+            'n': int(config.get('n', 1)),
+            'seed': int(config.get('seed', 0)) if config.get('seed') else None,
             'filename': str(config.get('filename', '')) if config.get('filename') else None
         }
         
-        # 验证size
-        valid_sizes = ['1328*1328', '1664*928', '1472*1140', '1140*1472', '928*1664']
-        if validated['size'] not in valid_sizes:
-            validated['size'] = '1328*1328'
+        # 验证模型特定参数
+        model = validated['model']
+        if model == 'qwen-image':
+            # 千问模型限制
+            validated['n'] = 1  # 只支持1张
+            validated['seed'] = None  # 不支持seed参数
+        else:
+            # 万相模型限制
+            if validated['n'] > 4:
+                validated['n'] = 4
+            elif validated['n'] < 1:
+                validated['n'] = 1
+        
+        # 验证size - 根据模型选择有效尺寸范围
+        model = validated.get('model', 'wan2.2-t2i-flash')
+        if model == 'qwen-image':
+            valid_sizes = ['1328*1328', '1664*928', '1472*1140', '1140*1472', '928*1664']
+            if validated['size'] not in valid_sizes:
+                validated['size'] = '1328*1328'
+        else:
+            # 万相模型支持512-1440范围内的任意尺寸
+            size_str = validated['size']
+            try:
+                width, height = map(int, size_str.split('*'))
+                if not (512 <= width <= 1440 and 512 <= height <= 1440 and width * height <= 2000000):
+                    validated['size'] = '1024*1024'  # 万相默认尺寸
+            except (ValueError, IndexError):
+                validated['size'] = '1024*1024'
         
         return validated
 
