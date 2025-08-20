@@ -22,6 +22,8 @@
 - `wanx2.1-t2i-plus`: 2.1专业版
 - `wanx2.0-t2i-turbo`: 2.0极速版
 
+> **模型命名规则**：万相2.2及更新版本使用`wan`前缀，早期版本使用`wanx`前缀。切换模型时请仔细核对名称，避免调用失败。
+
 ### 请求参数
 
 #### 基础参数
@@ -35,6 +37,8 @@
 | `prompt_extend` | bool | 否 | 智能改写，默认true | ✅ | ✅ |
 | `watermark` | bool | 否 | 添加水印，默认false | ✅ | ✅ |
 | `seed` | int | 否 | 随机种子，范围0-2147483647 | ❌ | ✅ |
+
+**seed参数说明**：当提供seed值且n>1时，系统会自动为每张图片生成连续种子值（seed, seed+1, seed+2...）。如需生成内容保持相对稳定，请使用相同的seed值。
 
 #### 尺寸支持表
 **千问模型固定尺寸**:
@@ -67,7 +71,12 @@
         "actual_prompt": "改写后提示词",
         "url": "https://xxx.png"
       }
-    ]
+    ],
+    "task_metrics": {
+      "TOTAL": 1,
+      "SUCCEEDED": 1,
+      "FAILED": 0
+    }
   }
 }
 ```
@@ -150,6 +159,363 @@ python text2image.py "风景画" --model wan2.2-t2i-flash --n 4 --size 512*512
 
 ---
 
+## 🖼️ 图像编辑API
+
+### 支持的模型
+
+#### 通义千问-图像编辑 (qwen-image-edit)
+- **模型名称**: `qwen-image-edit`
+- **特色能力**: 中英双语文字编辑、调色、细节增强、风格迁移、增删物体、改变位置和动作
+- **计费**: 0.3元/张
+- **免费额度**: 100张（180天内有效）
+- **图像要求**: 支持JPG、JPEG、PNG、BMP、TIFF、WEBP格式，尺寸384×384到3072×3072像素，大小不超过10MB
+
+### 请求参数
+
+#### 基础参数
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `model` | string | 是 | 模型名称，固定为`qwen-image-edit` |
+| `messages` | array | 是 | 对话列表，仅支持单轮对话 |
+| `negative_prompt` | string | 否 | 反向提示词，≤500字符 |
+| `watermark` | bool | 否 | 是否添加水印，默认false |
+
+#### messages结构
+```json
+{
+  "role": "user",
+  "content": [
+    {
+      "image": "图像URL或Base64"
+    },
+    {
+      "text": "编辑指令，≤800字符"
+    }
+  ]
+}
+```
+
+#### 图像输入格式
+- **URL格式**: 支持HTTP/HTTPS公网地址，不能包含中文字符
+- **Base64格式**: `data:{MIME_type};base64,{base64_data}`
+
+### 响应格式
+
+#### 成功响应
+```json
+{
+  "output": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": [
+            {
+              "image": "https://xxx.png"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "usage": {
+    "width": 1248,
+    "height": 832,
+    "image_count": 1
+  },
+  "request_id": "xxx"
+}
+```
+
+#### 错误响应
+```json
+{
+  "request_id": "xxx",
+  "error": {
+    "code": "InvalidParameter",
+    "message": "参数错误详情"
+  }
+}
+```
+
+### 使用示例
+
+#### HTTP调用
+```bash
+curl --location 'https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation' \
+--header 'Content-Type: application/json' \
+--header "Authorization: Bearer $DASHSCOPE_API_KEY" \
+--data '{
+    "model": "qwen-image-edit",
+    "input": {
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "image": "https://example.com/dog.jpg"
+                    },
+                    {
+                        "text": "将狗改为站立姿势"
+                    }
+                ]
+            }
+        ]
+    },
+    "parameters": {
+        "negative_prompt": "低质量",
+        "watermark": false
+    }
+}'
+```
+
+#### Python SDK调用
+```python
+import json
+import os
+import dashscope
+from dashscope import MultiModalConversation
+
+dashscope.base_http_api_url = "https://dashscope.aliyuncs.com/api/v1/"
+
+messages = [
+    {
+        "role": "user",
+        "content": [
+            {"image": "https://example.com/input.jpg"},
+            {"text": "将人物改为站立姿势，背景改为南极"}
+        ]
+    }
+]
+
+response = MultiModalConversation.call(
+    api_key=os.getenv("DASHSCOPE_API_KEY"),
+    model="qwen-image-edit",
+    messages=messages,
+    result_format='message',
+    stream=False,
+    watermark=False,
+    negative_prompt="低质量"
+)
+
+if response.status_code == 200:
+    print(json.dumps(response, ensure_ascii=False))
+else:
+    print(f"错误码: {response.code}, 错误信息: {response.message}")
+```
+
+### 编辑能力示例
+- **文字编辑**: 替换图片中的文字内容
+- **物体增删**: 添加或移除图片中的物体
+- **姿势调整**: 改变人物或动物的动作姿态
+- **背景替换**: 更改图片背景场景
+- **风格迁移**: 将图片转换为卡通、写实等不同风格
+- **细节增强**: 提升图片的清晰度和细节表现
+
+---
+
+## 🖌️ 通义万相图像编辑API
+
+### 支持的模型
+
+#### 通义万相-通用图像编辑 (wanx2.1-imageedit)
+- **模型名称**: `wanx2.1-imageedit`
+- **特色能力**: 9大编辑功能 - 全局/局部风格化、指令编辑、局部重绘、去水印、扩图、超分、上色、线稿生图、参考卡通生图
+- **计费**: 0.14元/张
+- **免费额度**: 500张（180天内有效）
+- **图像要求**: 支持JPG、JPEG、PNG、BMP、TIFF、WEBP格式，尺寸512×512到4096×4096像素，大小不超过10MB
+
+### 9大编辑功能详解
+
+| 功能名称 | function参数值 | 说明 | 示例场景 |
+|---|---|---|---|
+| **全局风格化** | `stylization_all` | 整体图像风格转换 | 转换成法国绘本风格 |
+| **局部风格化** | `stylization_local` | 指定区域风格转换 | 把房子变成木板风格 |
+| **指令编辑** | `description_edit` | 通过文字指令编辑内容 | 把女孩的头发修改为红色 |
+| **局部重绘** | `description_edit_with_mask` | 精确区域编辑 | 在指定区域添加陶瓷兔子 |
+| **去文字水印** | `remove_watermark` | 去除中英文文字水印 | 去除图像中的文字 |
+| **扩图** | `expand` | 按比例扩展图像边界 | 扩展绿色仙子的背景 |
+| **图像超分** | `super_resolution` | 高清放大模糊图像 | 将模糊图像变清晰 |
+| **图像上色** | `colorization` | 黑白图像转彩色 | 为黑白照片添加色彩 |
+| **线稿生图** | `doodle` | 提取线稿并重新生成 | 线稿生成北欧风客厅 |
+| **参考卡通生图** | `control_cartoon_feature` | 基于卡通形象生成 | 卡通形象探出头场景 |
+
+### 请求参数
+
+#### 基础参数
+| 参数 | 类型 | 必填 | 说明 |
+|---|---|---|---|
+| `model` | string | 是 | 模型名称，固定为`wanx2.1-imageedit` |
+| `function` | string | 是 | 编辑功能类型，见上表 |
+| `prompt` | string | 是 | 编辑提示词，≤800字符 |
+| `base_image_url` | string | 是 | 输入图像URL或Base64 |
+| `mask_image_url` | string | 条件必填 | 局部重绘时的涂抹区域图像 |
+| `n` | int | 否 | 生成数量，1-4张，默认1 |
+| `seed` | int | 否 | 随机种子，0-2147483647 |
+| `watermark` | bool | 否 | 是否添加水印，默认false |
+
+#### 图像输入格式
+- **URL格式**: 支持HTTP/HTTPS公网地址
+- **Base64格式**: `data:{MIME_type};base64,{base64_data}`
+- **本地文件**: `file://绝对路径` 或 `file://相对路径`
+
+#### 局部重绘注意事项
+- **mask_image_url**: 黑白图像，白色区域为编辑区域，黑色为保留区域
+- **分辨率要求**: mask图像必须与base图像分辨率完全一致
+
+### 响应格式
+
+#### 成功响应（创建任务）
+```json
+{
+  "output": {
+    "task_status": "PENDING",
+    "task_id": "xxx"
+  },
+  "request_id": "xxx"
+}
+```
+
+#### 查询结果响应
+```json
+{
+  "request_id": "xxx",
+  "output": {
+    "task_id": "xxx",
+    "task_status": "SUCCEEDED",
+    "submit_time": "2025-02-21 17:56:31.786",
+    "end_time": "2025-02-21 17:56:42.530",
+    "results": [
+      {
+        "url": "https://xxx.png"
+      }
+    ],
+    "task_metrics": {
+      "TOTAL": 1,
+      "SUCCEEDED": 1,
+      "FAILED": 0
+    }
+  },
+  "usage": {
+    "image_count": 1
+  }
+}
+```
+
+### 使用示例
+
+#### HTTP调用示例
+
+**全局风格化：**
+```bash
+curl --location 'https://dashscope.aliyuncs.com/api/v1/services/aigc/image2image/image-synthesis' \
+--header 'X-DashScope-Async: enable' \
+--header "Authorization: Bearer $DASHSCOPE_API_KEY" \
+--header 'Content-Type: application/json' \
+--data '{
+  "model": "wanx2.1-imageedit",
+  "input": {
+    "function": "stylization_all",
+    "prompt": "转换成法国绘本风格",
+    "base_image_url": "http://example.com/input.jpg"
+  },
+  "parameters": {
+    "n": 1
+  }
+}'
+```
+
+**局部重绘：**
+```bash
+curl --location 'https://dashscope.aliyuncs.com/api/v1/services/aigc/image2image/image-synthesis' \
+--header 'X-DashScope-Async: enable' \
+--header "Authorization: Bearer $DASHSCOPE_API_KEY" \
+--header 'Content-Type: application/json' \
+--data '{
+  "model": "wanx2.1-imageedit",
+  "input": {
+    "function": "description_edit_with_mask",
+    "prompt": "陶瓷兔子抱着陶瓷小花",
+    "base_image_url": "http://example.com/base.jpg",
+    "mask_image_url": "http://example.com/mask.png"
+  }
+}'
+```
+
+#### Python SDK三种输入方式
+
+**方式1：公网URL**
+```python
+from dashscope import ImageSynthesis
+
+rsp = ImageSynthesis.call(
+    model="wanx2.1-imageedit",
+    function="stylization_all",
+    prompt="转换成法国绘本风格",
+    base_image_url="http://example.com/input.jpg"
+)
+```
+
+**方式2：本地文件**
+```python
+from dashscope import ImageSynthesis
+
+rsp = ImageSynthesis.call(
+    model="wanx2.1-imageedit",
+    function="super_resolution",
+    prompt="图像超分",
+    base_image_url="file:///home/images/test.png"  # Linux/macOS
+    # base_image_url="file://C:/images/test.png"    # Windows
+)
+```
+
+**方式3：Base64编码**
+```python
+import base64
+from dashscope import ImageSynthesis
+
+# 编码图像为Base64
+def encode_file(file_path):
+    import mimetypes
+    mime_type, _ = mimetypes.guess_type(file_path)
+    with open(file_path, "rb") as image_file:
+        encoded = base64.b64encode(image_file.read()).decode('utf-8')
+    return f"data:{mime_type};base64,{encoded}"
+
+base64_image = encode_file("./test.jpg")
+rsp = ImageSynthesis.call(
+    model="wanx2.1-imageedit",
+    function="colorization",
+    prompt="蓝色背景，黄色的叶子",
+    base_image_url=base64_image
+)
+```
+
+### 功能使用技巧
+
+#### 全局风格化
+- **支持风格**: 法国绘本、中国水墨、油画等2种风格
+- **提示词**: 直接描述目标风格，如"转换成法国绘本风格"
+
+#### 局部风格化
+- **支持风格**: 木板、金属、玻璃等8种材质风格
+- **提示词**: 指定区域和风格，如"把房子变成木板风格"
+
+#### 指令编辑
+- **适用场景**: 简单编辑任务，无需精确控制区域
+- **提示词**: 直接描述修改内容，如"把女孩的头发修改为红色"
+
+#### 局部重绘
+- **适用场景**: 需要精确控制编辑区域
+- **操作步骤**: 1. 创建黑白mask图像 2. 白色区域为编辑区域 3. 黑色区域保持不变
+
+#### 去文字水印
+- **适用场景**: 去除中英文文字、水印、logo
+- **提示词**: "去除图像中的文字"或"移除水印"
+
+---
+
 ## 🎬 文生视频API
 
 ### 支持的模型
@@ -211,6 +577,28 @@ X-DashScope-Async: enable
 | `InvalidParameter` | 参数错误 | 检查参数格式和范围 |
 | `DataInspectionFailed` | 内容不合规 | 修改提示词内容 |
 | `TaskFailed` | 任务执行失败 | 重试或联系技术支持 |
+| `Unauthorized` | API Key无效 | 检查API Key是否正确 |
+| `RateLimitExceeded` | 请求频率超限 | 降低请求频率 |
+| `ResourceNotFound` | 任务不存在 | 检查task_id是否正确 |
+| `InternalError` | 服务内部错误 | 稍后重试 |
+| `ModelNotFound` | 模型不存在 | 检查模型名称是否正确 |
+| `QuotaExceeded` | 额度不足 | 充值或等待免费额度重置 |
+
+### 任务状态说明
+| 状态 | 说明 |
+|---|---|
+| `PENDING` | 任务排队中 |
+| `RUNNING` | 任务处理中 |
+| `SUCCEEDED` | 任务执行成功 |
+| `FAILED` | 任务执行失败 |
+| `CANCELED` | 任务取消成功 |
+| `UNKNOWN` | 任务不存在或状态未知 |
+
+### 任务结果统计
+响应中的`task_metrics`字段提供任务执行统计：
+- `TOTAL`: 总任务数
+- `SUCCEEDED`: 成功任务数
+- `FAILED`: 失败任务数
 
 ### 限流规则
 - **文生图**: 2 RPS
