@@ -10,6 +10,33 @@
       "filename": "QWEN技术介绍横版.png"
     },
     {
+      "prompt": "电商促销海报，主标题「双11狂欢节」红色粗体，副标题「全场5折起」黄色闪动效果，背景是金色礼盒和红包雨，商品展示台，价格标签，限时抢购按钮，专业电商设计风格，高清印刷质量",
+      "negative": "模糊，低质量，文字不清晰",
+      "size": "1328*1328",
+      "model": "qwen-image",
+      "watermark": false,
+      "prompt_extend": true,
+      "filename": "电商促销海报.png"
+    },
+    {
+      "prompt": "对联设计，上联「春风得意马蹄疾」，下联「一夜看尽长安花」，横批「金榜题名」，毛笔书法字体，红色宣纸质感，金色边框装饰，传统中国年味，春节氛围",
+      "negative": "现代字体，印刷体，模糊",
+      "size": "1664*928",
+      "model": "qwen-image",
+      "watermark": false,
+      "prompt_extend": true,
+      "filename": "春节对联.png"
+    },
+    {
+      "prompt": "书籍封面设计，标题「人工智能简史」现代无衬线字体，副标题「从图灵到ChatGPT」小字号，背景是芯片电路板纹理渐变，科技感蓝色调，出版社logo，专业书籍装帧设计",
+      "negative": "手写体，扭曲，模糊",
+      "size": "1472*1140",
+      "model": "qwen-image",
+      "watermark": false,
+      "prompt_extend": true,
+      "filename": "AI书籍封面.png"
+    },
+    {
       "prompt": "由羊毛毡制成的大熊猫，头戴大檐帽，穿着蓝色警服马甲，扎着腰带，携带警械装备，戴着蓝色手套，穿着皮鞋，大步奔跑姿态，毛毡效果，周围是动物王国城市街道商户，高级滤镜，路灯，动物王国，奇妙童趣，憨态可掬，夜晚，明亮，自然，可爱，4K，毛毡材质，摄影镜头，居中构图，毛毡风格，皮克斯风格，逆光",
       "negative": "模糊，低质量，变形，恐怖",
       "size": "1440*810",
@@ -19,17 +46,8 @@
       "filename": "毛毡大熊猫横版.png"
     },
     {
-      "prompt": "A man in a suit is standing in front of the window, looking at the bright moon outside the window. The man is holding a yellowed paper with handwritten words on it: 「A lantern moon climbs through the silver night, Unfurling quiet dreams across the sky, Each star a whispered promise wrapped in light, That dawn will bloom, though darkness wanders by.」 There is a cute cat on the windowsill.",
-      "negative": "blurry, low quality, distorted text",
-      "size": "1140*1472",
-      "model": "qwen-image",
-      "watermark": false,
-      "prompt_extend": true,
-      "filename": "英文诗歌竖版.png"
-    },
-    {
-      "prompt": "超广角镜头，碧海蓝天下的海岛，阳光透过树叶缝隙，洒下斑驳光影",
-      "negative": "普通视角，特写",
+      "prompt": "超广角镜头，碧海蓝天下的海岛，阳光透过树叶缝隙，洒下斑驳光影，清澈海水，白色沙滩，椰子树，热带风情，电影级色彩，4K画质，自然光线",
+      "negative": "普通视角，特写，灰暗",
       "size": "810*1440",
       "model": "wan2.2-t2i-plus",
       "watermark": false,
@@ -37,26 +55,8 @@
       "filename": "海岛竖版.png"
     },
     {
-      "prompt": "特写镜头，高清相机，情绪大片，日落，特写人像",
-      "negative": "模糊，过曝",
-      "size": "1328*1328",
-      "model": "qwen-image",
-      "watermark": false,
-      "prompt_extend": true,
-      "filename": "日落特写方版.png"
-    },
-    {
-      "prompt": "水墨风格，兰花，水墨画，留白，意境，吴冠中风格，细腻的笔触，宣纸的纹理",
-      "negative": "彩色，油画风格",
-      "size": "1472*1140",
-      "model": "qwen-image",
-      "watermark": false,
-      "prompt_extend": true,
-      "filename": "兰花水墨横版.png"
-    },
-    {
-      "prompt": "3D卡通风格，网球女运动员，短发，白色网球服，黑色短裤，侧身回球，3D卡通风格",
-      "negative": "写实风格，2D风格",
+      "prompt": "3D卡通风格，网球女运动员，短发，白色网球服，黑色短裤，侧身回球，3D卡通风格，迪士尼动画质感，明亮色彩，阳光体育场，动态模糊效果",
+      "negative": "写实风格，2D风格，灰暗",
       "size": "1440*810",
       "model": "wan2.2-t2i-flash",
       "watermark": false,
@@ -64,17 +64,8 @@
       "filename": "网球3D卡通横版.png"
     },
     {
-      "prompt": "国风水墨风格，一个长长黑发的男人，金色的发簪，飞舞着金色的蝴蝶，白色的服装，高细节，高质量，深蓝色背景，背景中有若隐若现的水墨竹林",
-      "negative": "现代风格，彩色背景",
-      "size": "1140*1472",
-      "model": "qwen-image",
-      "watermark": false,
-      "prompt_extend": true,
-      "filename": "国风人物竖版.png"
-    },
-    {
-      "prompt": "吉卜力工作室风格，咖啡馆外，明亮的白色背景，更少细节，梦幻，动画电影质感，宫崎骏风格",
-      "negative": "写实风格，深色背景",
+      "prompt": "吉卜力工作室风格，咖啡馆外，明亮的白色背景，更少细节，梦幻，动画电影质感，宫崎骏风格，温馨治愈，柔和色彩，手绘质感",
+      "negative": "写实风格，深色背景，复杂细节",
       "size": "810*1440",
       "model": "wan2.2-t2i-flash",
       "watermark": false,
@@ -82,13 +73,58 @@
       "filename": "吉卜力咖啡馆竖版.png"
     },
     {
-      "prompt": "长焦镜头，展示了长焦镜头下，一只猎豹在郁郁葱葱的森林中站立，面对镜头，背景被巧妙地虚化，猎豹的面部成为画面的绝对焦点",
-      "negative": "背景清晰，广角",
+      "prompt": "长焦镜头，展示了长焦镜头下，一只猎豹在郁郁葱葱的森林中站立，面对镜头，背景被巧妙地虚化，猎豹的面部成为画面的绝对焦点，野生动物摄影，专业相机质感",
+      "negative": "背景清晰，广角，模糊",
       "size": "1024*1024",
       "model": "wan2.2-t2i-flash",
       "watermark": false,
       "prompt_extend": true,
       "filename": "猎豹长焦方版.png"
+    },
+    {
+      "prompt": "赛博朋克风格，未来城市夜景，霓虹灯广告牌，飞行汽车，全息投影，雨天反光，电影级光照，高对比度，4K画质，科幻氛围",
+      "negative": "白天，自然光线，乡村",
+      "size": "1440*810",
+      "model": "wan2.2-t2i-plus",
+      "watermark": false,
+      "prompt_extend": true,
+      "filename": "赛博朋克城市.png"
+    },
+    {
+      "prompt": "人像摄影，专业相机，50mm镜头，自然光，金色夕阳，女性模特，棕色长发，白色连衣裙，草地背景，柔焦效果，电影感色调",
+      "negative": "过度曝光，背景杂乱，闭眼",
+      "size": "1024*1024",
+      "model": "wan2.2-t2i-plus",
+      "watermark": false,
+      "prompt_extend": true,
+      "filename": "夕阳人像方版.png"
+    },
+    {
+      "prompt": "美食摄影，日式拉面，金黄汤底，叉烧，溏心蛋，葱花，紫菜，木桌背景，自然光线，专业美食摄影，食欲感",
+      "negative": "黑暗，模糊，不新鲜",
+      "size": "1440*810",
+      "model": "wan2.2-t2i-plus",
+      "watermark": false,
+      "prompt_extend": true,
+      "filename": "日式拉面美食.png"
+    },
+    {
+      "prompt": "新年祝福贺卡，背景有白雪，放鞭炮的小孩，蛇形成文案2025，并写上HAPPY NEW YEAR，红色喜庆配色，金色装饰，剪纸风格",
+      "negative": "模糊，文字不清晰，颜色暗淡",
+      "size": "1024*1024",
+      "model": "wan2.2-t2i-plus",
+      "watermark": false,
+      "prompt_extend": false,
+      "filename": "新年贺卡_plus.png"
+    },
+    {
+      "prompt": "新年祝福贺卡，背景有白雪，放鞭炮的小孩，蛇形成文案2025，并写上HAPPY NEW YEAR，红色喜庆配色，金色装饰，剪纸风格",
+      "negative": "模糊，文字不清晰，颜色暗淡",
+      "size": "1024*1024",
+      "model": "wan2.2-t2i-flash",
+      "watermark": false,
+      "prompt_extend": false,
+      "filename": "新年贺卡_flash.png"
     }
   ]
 }

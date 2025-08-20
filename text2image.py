@@ -48,7 +48,7 @@ def main():
 使用示例:
   python text2image.py "一只可爱的猫咪"
   python text2image.py -f prompts.txt
-  python text2image.py -f config.json --output ./images
+  python text2image.py -f prompts.json --output ./images
         """
     )
     
@@ -65,20 +65,20 @@ def main():
     )
     
     parser.add_argument(
-        "--model",
+        "-m", "--model",
         choices=["qwen-image", "wan2.2-t2i-flash", "wan2.2-t2i-plus", "wanx2.1-t2i-turbo", "wanx2.1-t2i-plus", "wanx2.0-t2i-turbo"],
         default="wan2.2-t2i-flash",
         help="模型选择 (默认: wan2.2-t2i-flash)"
     )
     
     parser.add_argument(
-        "--size",
+        "-s", "--size",
         default="1024*1024",
         help="图像尺寸 (万相: 512-1440像素任意组合, 千问: 1328*1328/1664*928/1472*1140/1140*1472/928*1664)"
     )
     
     parser.add_argument(
-        "--n",
+        "-n", "--n",
         type=int,
         choices=[1, 2, 3, 4],
         default=1,
@@ -86,36 +86,36 @@ def main():
     )
     
     parser.add_argument(
-        "--seed",
+        "-S", "--seed",
         type=int,
         help="随机种子，用于控制生成内容的随机性"
     )
     
     parser.add_argument(
-        "--negative",
+        "-N", "--negative",
         default="",
         help="反向提示词（不希望在图像中出现的内容）"
     )
     
     parser.add_argument(
-        "--api-key",
+        "-k", "--api-key",
         help="阿里云百炼API密钥（可选，也可通过环境变量设置）"
     )
     
     parser.add_argument(
-        "--output",
+        "-o", "--output",
         default="./generated_images",
         help="输出目录 (默认: ./generated_images)"
     )
     
     parser.add_argument(
-        "--watermark",
+        "-w", "--watermark",
         action="store_true",
         help="添加水印标识"
     )
     
     parser.add_argument(
-        "--no-extend",
+        "-x", "--no-extend",
         action="store_true",
         help="不开启智能提示词改写"
     )
@@ -146,6 +146,19 @@ def main():
     except Exception as e:
         print(f"❌ 错误: {e}")
         return 1
+
+
+def get_model_short_name(model_name: str) -> str:
+    """获取模型简称"""
+    model_short_names = {
+        "qwen-image": "qwen",
+        "wan2.2-t2i-flash": "wan22f",
+        "wan2.2-t2i-plus": "wan22p",
+        "wanx2.1-t2i-turbo": "wan21t",
+        "wanx2.1-t2i-plus": "wan21p",
+        "wanx2.0-t2i-turbo": "wan20t"
+    }
+    return model_short_names.get(model_name, model_name)
 
 
 def process_file_input(generator: Text2ImageGenerator, args) -> int:
@@ -203,13 +216,20 @@ def process_file_input(generator: Text2ImageGenerator, args) -> int:
                 if result.task_status.value == "SUCCEEDED" and result.results:
                     image = result.results[0]
                     
+                    # 获取模型简称
+                    model_short = get_model_short_name(validated_config.get('model', 'wan2.2-t2i-flash'))
+                    
                     # 确定文件名
                     if config.get('filename'):
                         filename = config['filename']
+                        # 为用户指定的文件名添加模型前缀
+                        name_without_ext = Path(filename).stem
+                        ext = Path(filename).suffix or '.png'
+                        filename = f"{i}_{model_short}_{name_without_ext}{ext}"
                     else:
                         safe_name = "".join(c for c in prompt_text[:20] if c.isalnum() or c in (' ', '-', '_')).strip()
                         safe_name = safe_name.replace(' ', '_') or f"prompt_{i}"
-                        filename = f"{i}_{safe_name}.png"
+                        filename = f"{i}_{model_short}_{safe_name}.png"
                     
                     file_path = generator.download_image_sync(
                         image.url,
@@ -269,12 +289,20 @@ def process_single_prompt(generator: Text2ImageGenerator, args) -> int:
         output_dir = Path(args.output)
         output_dir.mkdir(parents=True, exist_ok=True)
         
-        # 下载图像
+        # 获取模型简称
+        model_short = get_model_short_name(args.model)
+        
+        # 确定文件名
         filename = args.filename
         if not filename:
             safe_name = "".join(c for c in args.prompt[:20] if c.isalnum() or c in (' ', '-', '_')).strip()
             safe_name = safe_name.replace(' ', '_') or "generated"
-            filename = f"{safe_name}.png"
+            filename = f"{model_short}_{safe_name}.png"
+        else:
+            # 如果用户指定了文件名，添加模型前缀
+            name_without_ext = Path(filename).stem
+            ext = Path(filename).suffix or '.png'
+            filename = f"{model_short}_{name_without_ext}{ext}"
         
         file_path = generator.download_image_sync(
             image.url,
