@@ -10,7 +10,7 @@ import os
 import sys
 import time
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 # 添加src目录到路径
 sys.path.insert(0, str(Path(__file__).parent))
@@ -94,9 +94,9 @@ def main():
     )
     
     parser.add_argument(
-        "--no-watermark",
+        "--watermark",
         action="store_true",
-        help="不添加水印"
+        help="添加水印标识"
     )
     
     parser.add_argument(
@@ -148,7 +148,7 @@ def process_single_prompt(generator: Text2ImageGenerator, args) -> int:
         negative_prompt=args.negative or None,
         size=args.size,
         prompt_extend=not args.no_extend,
-        watermark=not args.no_watermark
+        watermark=args.watermark
     )
     
     return handle_single_result(result, args, generator=generator)
@@ -180,7 +180,7 @@ def process_single_file(generator: Text2ImageGenerator, args) -> int:
                     negative_prompt=args.negative or None,
                     size=args.size,
                     prompt_extend=not args.no_extend,
-                    watermark=not args.no_watermark
+                    watermark=args.watermark
                 )
                 return handle_single_result(result, args, generator=generator)
         else:
@@ -225,6 +225,8 @@ def process_batch_file(generator: Text2ImageGenerator, args) -> int:
                     )
                     
                     print(f"✅ 成功: {filename}")
+                    if image.actual_prompt:
+                        print(f"   📝 实际提示词: {image.actual_prompt[:100]}...")
                     success_count += 1
                 else:
                     print(f"❌ 失败: {validated_config.get('prompt', '')[:50]}...")
@@ -262,6 +264,9 @@ def handle_single_result(result, args, custom_filename: Optional[str] = None, ge
         print(f"📁 保存路径: {file_path}")
         print(f"🌐 原始URL: {image.url}")
         print(f"⏱️  任务ID: {result.task_id}")
+        if image.actual_prompt:
+            print(f"📝 实际提示词: {image.actual_prompt}")
+        print(f"📋 原始提示词: {image.orig_prompt}")
         
         return 0
     else:

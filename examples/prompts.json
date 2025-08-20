@@ -5,6 +5,7 @@
       "negative": "模糊,低质量,畸形",
       "size": "1472*1140",
       "watermark": false,
+      "prompt_extend": true,
       "filename": "阿里云古风街景.png"
     },
     {
@@ -12,6 +13,7 @@
       "negative": "黑暗,混乱,低分辨率",
       "size": "1664*928",
       "watermark": false,
+      "prompt_extend": true,
       "filename": "未来实验室.png"
     },
     {
@@ -19,6 +21,7 @@
       "negative": "彩色,现代元素,文字",
       "size": "1140*1472",
       "watermark": false,
+      "prompt_extend": true,
       "filename": "中国水墨画.png"
     },
     {
@@ -26,6 +29,7 @@
       "negative": "白天,乡村,低质量",
       "size": "1664*928",
       "watermark": false,
+      "prompt_extend": true,
       "filename": "赛博朋克城市.png"
     },
     {
@@ -33,6 +37,7 @@
       "negative": "恐怖,黑暗,写实",
       "size": "1328*1328",
       "watermark": false,
+      "prompt_extend": true,
       "filename": "樱花少女.png"
     }
   ]

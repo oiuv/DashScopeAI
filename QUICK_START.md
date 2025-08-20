@@ -82,7 +82,7 @@ python generate.py [输入方式] [选项]
   --api-key KEY         API密钥
   --output DIR          输出目录 (默认: ./generated_images)
   --filename NAME       输出文件名
-  --no-watermark        不添加水印
+  --watermark           添加水印标识（默认不添加）
   --no-extend           不开启智能改写
 ```
 
@@ -119,6 +119,7 @@ python generate.py -f my_prompts.txt
       "negative": "模糊,低质量,畸形",
       "size": "1472*1140",
       "watermark": false,
+      "prompt_extend": true,
       "filename": "阿里云古风街景.png"
     },
     {
@@ -146,8 +147,8 @@ python generate.py -b advanced_config.json --output ./my_images
 # 从文件读取，指定输出目录
 python generate.py -f my_prompts.txt --output ./cute_animals --size 1328*1328
 
-# 批量处理，自定义设置
-python generate.py -b batch_config.json --no-watermark --output ./high_quality
+# 批量处理，添加水印
+python generate.py -b batch_config.json --watermark --output ./with_watermark
 ```
 
 ### 5. 支持的文件格式
