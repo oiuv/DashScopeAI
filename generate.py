@@ -164,25 +164,77 @@ def process_single_file(generator: Text2ImageGenerator, args) -> int:
         
         if isinstance(prompts, list) and len(prompts) > 0:
             if isinstance(prompts[0], dict):
-                # JSON格式，结构化配置
+                # JSON格式，结构化配置 - 只处理第一个配置
                 config = PromptFileReader.validate_prompt_config(prompts[0])
                 print(f"🎯 使用JSON配置: {config['prompt'][:50]}...")
                 
                 result = generator.generate_image(**config)
                 return handle_single_result(result, args, config.get('filename'), generator)
             else:
-                # 文本格式，使用第一个提示词
-                prompt = prompts[0]
-                print(f"🎯 使用文本提示: {prompt}")
+                # 文本格式 - 处理所有提示词
+                print(f"🎯 找到 {len(prompts)} 个文本提示词")
                 
-                result = generator.generate_image(
-                    prompt=prompt,
-                    negative_prompt=args.negative or None,
-                    size=args.size,
-                    prompt_extend=not args.no_extend,
-                    watermark=args.watermark
-                )
-                return handle_single_result(result, args, generator=generator)
+                if len(prompts) == 1:
+                    # 只有一个提示词，直接处理
+                    prompt = prompts[0]
+                    print(f"🎯 使用提示词: {prompt}")
+                    
+                    result = generator.generate_image(
+                        prompt=prompt,
+                        negative_prompt=args.negative or None,
+                        size=args.size,
+                        prompt_extend=not args.no_extend,
+                        watermark=args.watermark
+                    )
+                    return handle_single_result(result, args, generator=generator)
+                else:
+                    # 多个提示词，使用批量处理逻辑
+                    print(f"🔄 处理 {len(prompts)} 个文本提示词...")
+                    
+                    # 确保输出目录存在
+                    output_dir = Path(args.output)
+                    output_dir.mkdir(parents=True, exist_ok=True)
+                    
+                    success_count = 0
+                    for i, prompt in enumerate(prompts, 1):
+                        print(f"\n[{i}/{len(prompts)}] 处理: {prompt}")
+                        
+                        try:
+                            result = generator.generate_image(
+                                prompt=prompt,
+                                negative_prompt=args.negative or None,
+                                size=args.size,
+                                prompt_extend=not args.no_extend,
+                                watermark=args.watermark
+                            )
+                            
+                            if result.task_status.value == "SUCCEEDED" and result.results:
+                                image = result.results[0]
+                                
+                                # 生成文件名
+                                safe_name = "".join(c for c in prompt[:20] if c.isalnum() or c in (' ', '-', '_')).strip()
+                                safe_name = safe_name.replace(' ', '_')
+                                filename = f"text_{i}_{safe_name}.png"
+                                
+                                file_path = generator.download_image_sync(
+                                    image.url,
+                                    str(output_dir),
+                                    filename
+                                )
+                                
+                                print(f"✅ 成功: {filename}")
+                                if image.actual_prompt:
+                                    print(f"   📝 实际提示词: {image.actual_prompt[:100]}...")
+                                success_count += 1
+                            else:
+                                print(f"❌ 失败: {prompt}")
+                                
+                        except Exception as e:
+                            print(f"❌ 任务 {i} 失败: {e}")
+                            continue
+                    
+                    print(f"\n📊 文本文件处理完成: {success_count}/{len(prompts)} 成功")
+                    return 0 if success_count > 0 else 1
         else:
             print("❌ 文件中没有找到有效提示词")
             return 1

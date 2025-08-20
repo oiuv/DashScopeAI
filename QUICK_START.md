@@ -106,8 +106,20 @@ python generate.py [输入方式] [选项]
 
 运行：
 ```bash
+# 处理所有提示词（批量模式）
 python generate.py -f my_prompts.txt
+
+# 处理所有提示词到指定目录
+python generate.py -f my_prompts.txt --output ./my_images
+
+# 处理所有提示词并添加水印
+python generate.py -f my_prompts.txt --watermark
 ```
+
+**注意：**
+- 文本文件中的每行（非空、非注释）都会生成一张图片
+- 支持批量处理，自动生成文件名
+- 使用 `-b` 参数处理JSON文件时，会按照JSON中的配置逐个处理
 
 #### **高级JSON文件使用**
 创建 `advanced_config.json`:
