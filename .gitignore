@@ -193,3 +193,4 @@ Thumbs.db
 *.key
 secrets.txt
 config.local.py
+watermark_remover_config.json
