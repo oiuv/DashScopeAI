@@ -10,11 +10,13 @@ from enum import Enum
 class ModelType(str, Enum):
     """支持的模型类型"""
     QWEN = "qwen-image"  # 通义千问文生图
+    QWEN_EDIT = "qwen-image-edit"  # 通义千问图像编辑
     WAN2_2_FLASH = "wan2.2-t2i-flash"  # 万相2.2极速版
     WAN2_2_PLUS = "wan2.2-t2i-plus"  # 万相2.2专业版
     WAN2_1_TURBO = "wanx2.1-t2i-turbo"  # 万相2.1极速版
     WAN2_1_PLUS = "wanx2.1-t2i-plus"  # 万相2.1专业版
     WAN2_0_TURBO = "wanx2.0-t2i-turbo"  # 万相2.0极速版
+    WANX_EDIT = "wanx2.1-imageedit"  # 万相通用图像编辑
 
 
 class ImageSize(str, Enum):
@@ -34,6 +36,20 @@ class TaskStatus(str, Enum):
     FAILED = "FAILED"  # 任务执行失败
     CANCELED = "CANCELED"  # 任务取消成功
     UNKNOWN = "UNKNOWN"  # 任务不存在或状态未知
+
+
+class WanxEditFunction(str, Enum):
+    """万相图像编辑功能类型"""
+    STYLIZATION_ALL = "stylization_all"  # 全局风格化
+    STYLIZATION_LOCAL = "stylization_local"  # 局部风格化
+    DESCRIPTION_EDIT = "description_edit"  # 指令编辑
+    DESCRIPTION_EDIT_WITH_MASK = "description_edit_with_mask"  # 局部重绘
+    REMOVE_WATERMARK = "remove_watermark"  # 去水印
+    EXPAND = "expand"  # 扩图
+    SUPER_RESOLUTION = "super_resolution"  # 超分
+    COLORIZATION = "colorization"  # 上色
+    DOODLE = "doodle"  # 线稿生图
+    CONTROL_CARTOON_FEATURE = "control_cartoon_feature"  # 参考卡通生图
 
 
 class ImageGenerationRequest(BaseModel):
@@ -63,7 +79,7 @@ class ImageGenerationRequest(BaseModel):
                 errors.append("千问模型仅支持生成1张图片")
         
         # 万相模型尺寸范围验证
-        elif self.model.startswith("wan"):
+        elif self.model.startswith("wan") and self.model != ModelType.WANX_EDIT:
             try:
                 width, height = map(int, self.size.split("*"))
                 if not (512 <= width <= 1440 and 512 <= height <= 1440):
@@ -76,13 +92,40 @@ class ImageGenerationRequest(BaseModel):
         return {"valid": len(errors) == 0, "errors": errors}
 
 
-class ImageResult(BaseModel):
-    """图像结果模型"""
-    orig_prompt: str = Field(..., description="原始的输入prompt")
-    actual_prompt: Optional[str] = Field(None, description="开启prompt智能改写后，实际使用的prompt")
-    url: str = Field(..., description="模型生成图片的URL地址，有效期为24小时")
-    code: Optional[str] = Field(None, description="错误码，部分任务执行失败时会返回该字段")
-    message: Optional[str] = Field(None, description="错误信息，部分任务执行失败时会返回该字段")
+class ImageEditRequest(BaseModel):
+    """图像编辑请求模型"""
+    model: str = Field(..., description="模型名称")
+    prompt: str = Field(..., description="编辑提示词，≤800字符")
+    image_url: str = Field(..., description="输入图像URL或Base64")
+    negative_prompt: Optional[str] = Field(None, description="反向提示词，≤500字符")
+    watermark: bool = Field(default=False, description="是否添加水印")
+    
+    # 千问模型专用
+    messages: Optional[List[Dict[str, Any]]] = Field(None, description="千问模型的对话格式")
+    
+    # 万相模型专用
+    function: Optional[str] = Field(None, description="万相编辑功能类型")
+    mask_image_url: Optional[str] = Field(None, description="局部重绘的mask图像")
+    n: int = Field(default=1, ge=1, le=4, description="生成数量")
+    seed: Optional[int] = Field(None, description="随机种子")
+
+    def validate_for_model(self) -> Dict[str, Any]:
+        """根据模型验证参数"""
+        errors = []
+        
+        if self.model == ModelType.QWEN_EDIT:
+            # 千问编辑模型验证
+            if not self.messages and not (self.image_url and self.prompt):
+                errors.append("千问编辑需要提供messages或image_url+prompt")
+        
+        elif self.model == ModelType.WANX_EDIT:
+            # 万相编辑模型验证
+            if not self.function:
+                errors.append("万相编辑需要指定function参数")
+            if self.function == WanxEditFunction.DESCRIPTION_EDIT_WITH_MASK and not self.mask_image_url:
+                errors.append("局部重绘功能需要提供mask_image_url")
+        
+        return {"valid": len(errors) == 0, "errors": errors}
 
 
 class ImageResult(BaseModel):
@@ -104,6 +147,17 @@ class ImageGenerationResponse(BaseModel):
     results: Optional[List[ImageResult]] = Field(None, description="任务结果列表")
     image_count: Optional[int] = Field(None, description="模型生成图片的数量")
     request_id: str = Field(..., description="请求唯一标识")
+
+
+class ImageEditResponse(BaseModel):
+    """图像编辑响应模型"""
+    task_id: Optional[str] = Field(None, description="任务ID（万相模型）")
+    task_status: Optional[TaskStatus] = Field(None, description="任务状态")
+    choices: Optional[List[Dict[str, Any]]] = Field(None, description="千问模型的选择结果")
+    results: Optional[List[ImageResult]] = Field(None, description="任务结果列表")
+    url: Optional[str] = Field(None, description="编辑后图像URL（千问模型）")
+    request_id: str = Field(..., description="请求唯一标识")
+    error: Optional[Dict[str, str]] = Field(None, description="错误信息")
 
 
 class TaskCreationResponse(BaseModel):

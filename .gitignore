@@ -164,10 +164,14 @@ cython_debug/
 # Project specific
 # Generated images and test outputs
 generated_images/
+edited_images/
 test_output/
 *.png
 *.jpg
 *.jpeg
+*.bmp
+*.tiff
+*.webp
 
 # Logs
 *.log

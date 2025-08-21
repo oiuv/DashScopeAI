@@ -111,6 +111,8 @@ GET https://dashscope.aliyuncs.com/api/v1/tasks/{task_id}
 | **图像输入** | URL/Base64 | URL/Base64/本地文件 |
 | **并发限制** | 无特殊限制 | 需考虑异步队列 |
 | **结果有效期** | 24小时 | 24小时 |
+| **HTTP头设置** | 标准头 | 需添加`X-DashScope-Async: enable` |
+| **响应格式** | 同步返回image URL | 异步返回task_id+轮询结果 |
 
 ## 🎯 使用建议
 
@@ -118,6 +120,7 @@ GET https://dashscope.aliyuncs.com/api/v1/tasks/{task_id}
 - **快速原型开发**：同步接口，无需轮询
 - **简单编辑任务**：文字描述即可完成
 - **成本敏感**：单次调用成本低（0.14 vs 0.3元）
+- **本地文件处理**：支持Base64编码本地文件
 
 ### 选择万相的场景
 - **专业编辑需求**：9大功能全覆盖
@@ -134,6 +137,62 @@ GET https://dashscope.aliyuncs.com/api/v1/tasks/{task_id}
 | **功能数量** | 基础5项 | 专业9项 | 万相 |
 | **开发复杂度** | 简单 | 中等 | 千问 |
 | **处理精度** | 一般 | 精确 | 万相 |
+| **本地文件支持** | 通过Base64 | 通过Base64 | 平手 |
+
+## 💡 开发示例
+
+### Python SDK使用示例
+
+**千问同步调用：**
+```python
+from src.image import QwenImageEditor
+
+editor = QwenImageEditor(api_key="your-key")
+result = editor.edit(
+    image_url="https://example.com/image.jpg",
+    prompt="将背景改为日落场景",
+    negative_prompt="低质量",
+    watermark=False
+)
+print(f"编辑完成: {result.url}")
+```
+
+**万相异步调用：**
+```python
+from src.image import WanxImageEditor
+
+editor = WanxImageEditor(api_key="your-key")
+result = editor.stylization_all(
+    image_url="https://example.com/image.jpg",
+    prompt="转换成法国绘本风格",
+    n=1,
+    watermark=False
+)
+print(f"编辑完成: {result.results[0].url}")
+```
+
+**本地文件处理：**
+```python
+from src.image import ImageEditor
+
+editor = ImageEditor(api_key="your-key")
+
+# 千问处理本地文件
+base64_image = editor.encode_image_to_base64("./local_image.jpg")
+result = editor.edit_image_qwen(
+    image_url=base64_image,
+    prompt="添加彩虹背景"
+)
+
+# 万相处理本地文件
+base64_image = editor.encode_image_to_base64("./local_image.jpg")
+result = editor.edit_image(
+    model="wanx2.1-imageedit",
+    image_url=base64_image,
+    prompt="转换成水墨画风格",
+    function="stylization_all"
+)
+```
 
 ## 📝 总结建议
 

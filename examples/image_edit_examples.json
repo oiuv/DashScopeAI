@@ -1,0 +1,120 @@
+{
+  "examples": [
+    {
+      "name": "千问-文字替换",
+      "description": "使用千问模型替换图像中的文字",
+      "model": "qwen-image-edit",
+      "image": "https://example.com/sign.jpg",
+      "prompt": "将'欢迎光临'改为'欢迎回家'，保持原有字体风格",
+      "negative_prompt": "模糊，变形",
+      "filename": "qwen_text_replace.png"
+    },
+    {
+      "name": "千问-物体添加",
+      "description": "在图像中添加新物体",
+      "model": "qwen-image-edit",
+      "image": "https://example.com/room.jpg",
+      "prompt": "在桌子上添加一盆绿植",
+      "filename": "qwen_add_object.png"
+    },
+    {
+      "name": "千问-姿势调整",
+      "description": "改变人物姿势",
+      "model": "qwen-image-edit",
+      "image": "https://example.com/person.jpg",
+      "prompt": "让人物从坐着改为站立",
+      "filename": "qwen_pose_change.png"
+    },
+    {
+      "name": "万相-全局风格化",
+      "description": "整体图像风格转换",
+      "model": "wanx2.1-imageedit",
+      "function": "stylization_all",
+      "image": "https://example.com/photo.jpg",
+      "prompt": "转换成法国绘本风格，色彩柔和，线条简洁",
+      "filename": "wanx_style_all.png"
+    },
+    {
+      "name": "万相-局部风格化",
+      "description": "指定区域风格转换",
+      "model": "wanx2.1-imageedit",
+      "function": "stylization_local",
+      "image": "https://example.com/house.jpg",
+      "prompt": "把房子变成木板风格，其他部分保持不变",
+      "filename": "wanx_style_local.png"
+    },
+    {
+      "name": "万相-指令编辑",
+      "description": "简单指令编辑",
+      "model": "wanx2.1-imageedit",
+      "function": "description_edit",
+      "image": "https://example.com/girl.jpg",
+      "prompt": "把女孩的头发修改为红色，保持自然光线",
+      "filename": "wanx_edit_desc.png"
+    },
+    {
+      "name": "万相-局部重绘",
+      "description": "精确区域编辑",
+      "model": "wanx2.1-imageedit",
+      "function": "description_edit_with_mask",
+      "image": "https://example.com/table.jpg",
+      "mask": "https://example.com/table_mask.png",
+      "prompt": "在指定区域添加陶瓷兔子摆件",
+      "filename": "wanx_edit_mask.png"
+    },
+    {
+      "name": "万相-去水印",
+      "description": "去除图像中的文字水印",
+      "model": "wanx2.1-imageedit",
+      "function": "remove_watermark",
+      "image": "https://example.com/watermarked.jpg",
+      "prompt": "去除图像中的文字水印，保持背景自然",
+      "filename": "wanx_remove_watermark.png"
+    },
+    {
+      "name": "万相-扩图",
+      "description": "扩展图像边界",
+      "model": "wanx2.1-imageedit",
+      "function": "expand",
+      "image": "https://example.com/narrow.jpg",
+      "prompt": "按比例扩展图像边界，添加自然背景",
+      "filename": "wanx_expand.png"
+    },
+    {
+      "name": "万相-超分辨率",
+      "description": "高清放大模糊图像",
+      "model": "wanx2.1-imageedit",
+      "function": "super_resolution",
+      "image": "https://example.com/blurry.jpg",
+      "prompt": "将模糊图像变清晰，提升细节表现",
+      "filename": "wanx_super_res.png"
+    },
+    {
+      "name": "万相-上色",
+      "description": "黑白照片上色",
+      "model": "wanx2.1-imageedit",
+      "function": "colorization",
+      "image": "https://example.com/bw.jpg",
+      "prompt": "为黑白照片添加自然色彩，保持历史感",
+      "filename": "wanx_colorize.png"
+    },
+    {
+      "name": "万相-线稿生图",
+      "description": "线稿生成完整图像",
+      "model": "wanx2.1-imageedit",
+      "function": "doodle",
+      "image": "https://example.com/sketch.jpg",
+      "prompt": "线稿生成北欧风格客厅，温馨明亮",
+      "filename": "wanx_doodle.png"
+    },
+    {
+      "name": "万相-卡通生图",
+      "description": "卡通形象生成",
+      "model": "wanx2.1-imageedit",
+      "function": "control_cartoon_feature",
+      "image": "https://example.com/cartoon.jpg",
+      "prompt": "卡通形象探出头，可爱表情，明亮背景",
+      "filename": "wanx_cartoon.png"
+    }
+  ]
+}
