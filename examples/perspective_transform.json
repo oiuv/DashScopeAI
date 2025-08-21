@@ -2,7 +2,7 @@
   "project_name": "千问视角转换系列",
   "description": "使用千问图像编辑模型进行视角转换，包括正视、左侧、后侧、右侧不同角度",
   "model": "qwen-image-edit",
-  "output_directory": "./perspective_transform",
+  "output_directory": "./batch_output/perspective_transform",
   "creations": [
     {
       "id": 1,

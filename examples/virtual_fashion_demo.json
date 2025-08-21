@@ -2,7 +2,7 @@
   "project_name": "千问虚拟穿搭演示",
   "description": "使用千问图像编辑模型进行虚拟服装搭配，包括帽子、上衣等时尚单品替换",
   "model": "qwen-image-edit",
-  "output_directory": "./virtual_fashion",
+  "output_directory": "./batch_output/virtual_fashion",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999636.png",
   "creations": [
     {

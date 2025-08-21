@@ -3,7 +3,7 @@
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999719.png",
   "description": "基于阿里云官方示例熊形象，创作8种不同职业和场景的IP形象",
   "model": "qwen-image-edit",
-  "output_directory": "./bear_ip_creations",
+  "output_directory": "./batch_output/bear_ip_creations",
   "creations": [
     {
       "id": 1,

@@ -2,7 +2,7 @@
   "project_name": "千问背景替换演示",
   "description": "使用千问图像编辑模型进行多样化背景替换，包括海滩、教室、城市街景等",
   "model": "qwen-image-edit",
-  "output_directory": "./background_replacements",
+  "output_directory": "./batch_output/background_replacements",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999639.png",
   "creations": [
     {

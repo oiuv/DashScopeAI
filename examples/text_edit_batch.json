@@ -2,7 +2,7 @@
   "project_name": "千问批量文字编辑系列",
   "description": "使用千问图像编辑模型批量修改图片中的文字内容",
   "model": "qwen-image-edit",
-  "output_directory": "./text_edit_results",
+  "output_directory": "./batch_output/text_edit_results",
   "creations": [
     {
       "id": 1,

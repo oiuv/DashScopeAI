@@ -2,7 +2,7 @@
   "project_name": "千问图像编辑增删改替换演示",
   "description": "使用千问图像编辑模型演示物体增删、替换、颜色修改、人像调整等功能",
   "model": "qwen-image-edit",
-  "output_directory": "./qwen_edit_demo",
+  "output_directory": "./batch_output/qwen_edit_demo",
   "creations": [
     {
       "id": 1,

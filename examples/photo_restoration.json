@@ -2,7 +2,7 @@
   "project_name": "千问老照片修复系列",
   "description": "使用千问图像编辑模型进行老照片修复，包括去除划痕、降噪、细节增强等",
   "model": "qwen-image-edit",
-  "output_directory": "./photo_restoration",
+  "output_directory": "./batch_output/photo_restoration",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999552.png",
   "creations": [
     {
