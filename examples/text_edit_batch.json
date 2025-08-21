@@ -1,0 +1,32 @@
+{
+  "project_name": "千问批量文字编辑系列",
+  "description": "使用千问图像编辑模型批量修改图片中的文字内容",
+  "model": "qwen-image-edit",
+  "output_directory": "./text_edit_results",
+  "creations": [
+    {
+      "id": 1,
+      "name": "拼字游戏文字替换",
+      "description": "将拼字游戏方块上的英文替换为中文励志文字",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999641.png",
+      "prompt": "将拼字游戏方块上的'HEALTH INSURANCE'替换为'明天会更好'，保持方块字体风格一致，文字清晰可读",
+      "negative_prompt": "文字模糊，字体不一致，布局混乱",
+      "filename": "word_game_text_edit.png"
+    },
+    {
+      "id": 2,
+      "name": "便条文字替换",
+      "description": "将英文便条短语替换为更有意境的表达",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p1000039.png",
+      "prompt": "将便条上的短语'Take a Breather'更改为'Relax and Recharge'，保持原有手写风格，文字自然融入背景",
+      "negative_prompt": "文字变形，颜色不匹配，字体不一致",
+      "filename": "note_text_edit.png"
+    }
+  ],
+  "usage": {
+    "batch_processing": "python batch_image_edit.py examples/text_edit_batch.json",
+    "dry_run_mode": "python batch_image_edit.py examples/text_edit_batch.json --dry-run",
+    "custom_output": "python batch_image_edit.py examples/text_edit_batch.json -o ./edited_texts",
+    "single_edit_example": "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999641.png \"将拼字游戏方块上'HEALTH INSURANCE'替换为'明天会更好'\" --model qwen-image-edit"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "project_name": "熊IP角色创作系列",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999719.png",
+  "description": "基于阿里云官方示例熊形象，创作8种不同职业和场景的IP形象",
+  "model": "qwen-image-edit",
+  "output_directory": "./bear_ip_creations",
+  "creations": [
+    {
+      "id": 1,
+      "name": "熊画家",
+      "prompt": "这只熊拿着五彩画板和画笔，站在画板前认真地画画，画板上有彩色的风景画，熊的表情专注而愉悦",
+      "filename": "bear_painter.png",
+      "negative_prompt": "模糊，变形，画板太小，颜色暗淡"
+    },
+    {
+      "id": 2,
+      "name": "熊厨师",
+      "prompt": "这只熊站在白色背景前，手里拿着锅铲，旁边有新鲜的蔬菜和调料瓶，熊戴着厨师帽，表情开心",
+      "filename": "bear_chef.png",
+      "negative_prompt": "背景杂乱，食材不新鲜，厨具破旧"
+    },
+    {
+      "id": 3,
+      "name": "熊音乐家",
+      "prompt": "这只熊坐在地上，怀里抱着一把棕色的木吉他，手指自然地拨动琴弦，表情陶醉在音乐中",
+      "filename": "bear_musician.png",
+      "negative_prompt": "吉他太大或太小，姿势不自然，表情痛苦"
+    },
+    {
+      "id": 4,
+      "name": "熊魔术师",
+      "prompt": "这只熊穿着黑色的燕尾服，戴着高高的魔术帽，手里拿着闪亮的魔术棒，正在做出表演魔术的优雅动作，表情神秘",
+      "filename": "bear_magician.png",
+      "negative_prompt": "服装不整齐，魔术道具太小，动作僵硬"
+    },
+    {
+      "id": 5,
+      "name": "熊运动员",
+      "prompt": "这只熊穿着红色的运动服，手里拿着橙色的篮球，单腿弯曲做出运动姿态，表情充满活力",
+      "filename": "bear_athlete.png",
+      "negative_prompt": "服装不合身，篮球颜色不鲜艳，姿势不协调"
+    },
+    {
+      "id": 6,
+      "name": "熊园丁",
+      "prompt": "这只熊戴着黄色的草帽，手里拿着绿色的花洒和小铲子，正在开心地给植物浇水或种植花朵，表情温和",
+      "filename": "bear_gardener.png",
+      "negative_prompt": "草帽太大，工具不自然，植物枯萎"
+    },
+    {
+      "id": 7,
+      "name": "熊宇航员",
+      "prompt": "这只熊穿着白色的宇航服，戴着宇航头盔，伸出手指向远方的星空，表情充满探索精神",
+      "filename": "bear_astronaut.png",
+      "negative_prompt": "宇航服不合身，头盔反光过强，背景杂乱"
+    },
+    {
+      "id": 8,
+      "name": "熊舞蹈家",
+      "prompt": "这只熊穿着粉色的华丽舞裙，双臂优雅地展开，做出优美的舞蹈动作，表情陶醉而优雅",
+      "filename": "bear_dancer.png",
+      "negative_prompt": "舞裙不合身，动作僵硬，表情不自然"
+    }
+  ],
+  "usage": {
+    "batch_processing": "python batch_image_edit.py examples/bear_ip_creations.json",
+    "individual_processing": "python batch_image_edit.py examples/bear_ip_creations.json --start 1 --end 3",
+    "dry_run_mode": "python batch_image_edit.py examples/bear_ip_creations.json --dry-run",
+    "custom_output": "python batch_image_edit.py examples/bear_ip_creations.json -o ./my_bear_creations",
+    "single_edit_alternative": "python image_edit.py [image_path] [prompt] --model [model] --function [function]"
+  }
+}

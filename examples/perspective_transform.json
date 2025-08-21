@@ -1,0 +1,53 @@
+{
+  "project_name": "千问视角转换系列",
+  "description": "使用千问图像编辑模型进行视角转换，包括正视、左侧、后侧、右侧不同角度",
+  "model": "qwen-image-edit",
+  "output_directory": "./perspective_transform",
+  "creations": [
+    {
+      "id": 1,
+      "name": "正视视角",
+      "description": "将侧拍转为正面视角",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999964.png",
+      "prompt": "将图片转换为正视视角，正对镜头，保持主体完整清晰",
+      "negative_prompt": "视角歪斜，主体变形，画面模糊",
+      "filename": "front_view.png"
+    },
+    {
+      "id": 2,
+      "name": "左侧视角",
+      "description": "调整为左侧朝向",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999969.png",
+      "prompt": "将主体调整为朝向左侧的视角，保持自然姿态，画面平衡",
+      "negative_prompt": "姿态不自然，主体变形，方向混乱",
+      "filename": "left_view.png"
+    },
+    {
+      "id": 3,
+      "name": "后侧视角",
+      "description": "获得后侧视角",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999974.png",
+      "prompt": "转换为从后侧看的视角，展示主体背部，保持比例协调",
+      "negative_prompt": "比例失调，背景混乱，主体不完整",
+      "filename": "back_view.png"
+    },
+    {
+      "id": 4,
+      "name": "右侧视角",
+      "description": "调整为右侧朝向",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999971.png",
+      "prompt": "将主体调整为朝向右侧的视角，保持自然状态，构图美观",
+      "negative_prompt": "方向错误，姿态僵硬，画面失衡",
+      "filename": "right_view.png"
+    }
+  ],
+  "usage": {
+    "batch_processing": "python batch_image_edit.py examples/perspective_transform.json",
+    "dry_run_mode": "python batch_image_edit.py examples/perspective_transform.json --dry-run",
+    "custom_output": "python batch_image_edit.py examples/perspective_transform.json -o ./view_results",
+    "single_examples": [
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999964.png \"转换为正视视角\" --model qwen-image-edit",
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999969.png \"调整为左侧朝向\" --model qwen-image-edit"
+    ]
+  }
+}

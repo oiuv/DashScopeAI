@@ -1,0 +1,66 @@
+{
+  "project_name": "千问虚拟穿搭演示",
+  "description": "使用千问图像编辑模型进行虚拟服装搭配，包括帽子、上衣等时尚单品替换",
+  "model": "qwen-image-edit",
+  "output_directory": "./virtual_fashion",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999636.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "卡其色贝雷帽",
+      "description": "添加经典法式贝雷帽",
+      "prompt": "戴上一顶卡其色贝雷帽，帽子质地柔软，颜色温暖，法式优雅风格，与现有服装搭配和谐",
+      "negative_prompt": "帽子颜色突兀，质地粗糙，位置不正",
+      "filename": "beret_hat_style.png"
+    },
+    {
+      "id": 2,
+      "name": "浅蓝色衬衫",
+      "description": "替换为清新浅蓝色衬衫",
+      "prompt": "用浅蓝色衬衫替换圆点衬衫，衬衫剪裁合身，颜色清新淡雅，面料质感高级，保持原有领口和袖口设计",
+      "negative_prompt": "衬衫变形，颜色过深，面料质感差",
+      "filename": "light_blue_shirt.png"
+    },
+    {
+      "id": 3,
+      "name": "牛仔外套",
+      "description": "添加经典牛仔外套",
+      "prompt": "在现有服装外搭配一件经典蓝色牛仔外套，外套版型修身，颜色自然复古，与整体造型协调",
+      "negative_prompt": "外套过大，颜色不自然，遮挡过多",
+      "filename": "denim_jacket_style.png"
+    },
+    {
+      "id": 4,
+      "name": "米色风衣",
+      "description": "替换为优雅米色风衣",
+      "prompt": "用米色长款风衣替换现有上衣，风衣剪裁优雅，腰带设计，面料垂坠感好，营造都市时尚风格",
+      "negative_prompt": "风衣比例失调，颜色暗淡，质感廉价",
+      "filename": "beige_trench_coat.png"
+    },
+    {
+      "id": 5,
+      "name": "红色围巾",
+      "description": "添加时尚红色围巾",
+      "prompt": "在颈部添加一条红色围巾，围巾材质柔软，颜色鲜艳温暖，自然垂落，为造型增添亮点",
+      "negative_prompt": "围巾颜色过于艳丽，材质僵硬，位置不自然",
+      "filename": "red_scarf_accessory.png"
+    },
+    {
+      "id": 6,
+      "name": "白色西装外套",
+      "description": "替换为职业白色西装",
+      "prompt": "用白色西装外套替换现有上衣，外套剪裁利落，面料挺括，职业干练风格，与整体形象协调",
+      "negative_prompt": "外套起皱，颜色发黄，版型不合身",
+      "filename": "white_blazer_professional.png"
+    }
+  ],
+  "usage": {
+    "batch_processing": "python batch_image_edit.py examples/virtual_fashion_demo.json",
+    "dry_run_mode": "python batch_image_edit.py examples/virtual_fashion_demo.json --dry-run",
+    "custom_output": "python batch_image_edit.py examples/virtual_fashion_demo.json -o ./fashion_results",
+    "single_examples": [
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999636.png \"戴上一顶卡其色贝雷帽\" --model qwen-image-edit",
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999636.png \"用浅蓝色衬衫替换圆点衬衫\" --model qwen-image-edit"
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "project_name": "千问背景替换演示",
+  "description": "使用千问图像编辑模型进行多样化背景替换，包括海滩、教室、城市街景等",
+  "model": "qwen-image-edit",
+  "output_directory": "./background_replacements",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999639.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "海滩背景",
+      "description": "将原图背景替换为海滩场景",
+      "prompt": "将背景更改为阳光明媚的海滩，有蓝色海水、金色沙滩和椰子树，保持人物主体不变，光线自然温暖",
+      "negative_prompt": "人物变形，光线不自然，背景模糊",
+      "filename": "beach_background.png"
+    },
+    {
+      "id": 2,
+      "name": "现代教室背景",
+      "description": "替换为带中文黑板的传统教室",
+      "prompt": "将背景替换为真实的现代教室场景，背景中央为一块深绿色传统黑板，黑板表面用白色粉笔工整地写着中文'通义千问'，教室光线明亮，有现代教学设备",
+      "negative_prompt": "黑板颜色失真，文字模糊，教室杂乱",
+      "filename": "classroom_background.png"
+    },
+    {
+      "id": 3,
+      "name": "樱花街道背景",
+      "description": "替换为浪漫的樱花街道",
+      "prompt": "将背景替换为春季樱花盛开的街道，粉色樱花树下飘落花瓣，地面有花瓣铺就的小径，营造浪漫唯美的氛围，保持人物粉色大衣与樱花色调和谐",
+      "negative_prompt": "人物比例失调，樱花颜色过于艳丽，背景杂乱",
+      "filename": "sakura_street_background.png"
+    },
+    {
+      "id": 4,
+      "name": "艺术画廊背景",
+      "description": "替换为优雅的艺术画廊",
+      "prompt": "将背景替换为现代艺术画廊的展厅，白色墙壁上有精美的油画作品，木质地板光洁明亮，柔和的灯光营造艺术氛围",
+      "negative_prompt": "画廊空间拥挤，画作模糊，光线昏暗",
+      "filename": "art_gallery_background.png"
+    }
+  ],
+  "usage": {
+    "batch_processing": "python batch_image_edit.py examples/background_replace_demo.json",
+    "dry_run_mode": "python batch_image_edit.py examples/background_replace_demo.json --dry-run",
+    "custom_output": "python batch_image_edit.py examples/background_replace_demo.json -o ./bg_results",
+    "single_examples": [
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999639.png \"将背景更改为阳光明媚的海滩\" --model qwen-image-edit",
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999639.png \"替换为现代教室，黑板写着'通义千问'\" --model qwen-image-edit"
+    ]
+  }
+}

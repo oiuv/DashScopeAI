@@ -1,0 +1,23 @@
+{
+  "project_name": "千问老照片修复系列",
+  "description": "使用千问图像编辑模型进行老照片修复，包括去除划痕、降噪、细节增强等",
+  "model": "qwen-image-edit",
+  "output_directory": "./photo_restoration",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999552.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "老照片基础修复",
+      "description": "基础老照片修复处理",
+      "prompt": "修复老照片，去除划痕，降低噪点，增强细节，高分辨率，画面真实，肤色自然，面部特征清晰，无变形，复古照片修复",
+      "negative_prompt": "过度处理，颜色失真，细节丢失，人物变形",
+      "filename": "restored_photo.png"
+    }
+  ],
+  "usage": {
+    "batch_processing": "python batch_image_edit.py examples/photo_restoration.json",
+    "dry_run_mode": "python batch_image_edit.py examples/photo_restoration.json --dry-run",
+    "custom_output": "python batch_image_edit.py examples/photo_restoration.json -o ./restored_photos",
+    "single_example": "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999552.png \"修复老照片，去除划痕，降低噪点，增强细节，高分辨率，画面真实，肤色自然，面部特征清晰，无变形，复古照片修复\" --model qwen-image-edit"
+  }
+}

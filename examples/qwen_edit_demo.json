@@ -1,0 +1,72 @@
+{
+  "project_name": "千问图像编辑增删改替换演示",
+  "description": "使用千问图像编辑模型演示物体增删、替换、颜色修改、人像调整等功能",
+  "model": "qwen-image-edit",
+  "output_directory": "./qwen_edit_demo",
+  "creations": [
+    {
+      "id": 1,
+      "name": "新增标牌元素",
+      "description": "在企鹅前方添加欢迎标牌",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999647.png",
+      "prompt": "在企鹅前方添加一个小型木制标牌，上面写着'Welcome to Penguin Beach'，标牌要自然放置在地面上，字体清晰可读",
+      "negative_prompt": "标牌过大，文字模糊，位置不自然",
+      "filename": "add_welcome_sign.png"
+    },
+    {
+      "id": 2,
+      "name": "删除头发元素",
+      "description": "删除餐盘上的头发",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999649.png",
+      "prompt": "删除餐盘上的头发，保持餐盘和食物的完整性，让餐盘看起来干净整洁",
+      "negative_prompt": "食物变形，餐盘损坏，痕迹明显",
+      "filename": "remove_hair.png"
+    },
+    {
+      "id": 3,
+      "name": "替换水果元素",
+      "description": "将桃子替换为苹果",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999696.png",
+      "prompt": "把桃子变成红色的苹果，保持苹果的大小和位置与原来的桃子一致，苹果的质感要真实自然",
+      "negative_prompt": "苹果变形，颜色不自然，位置偏移",
+      "filename": "replace_peach_with_apple.png"
+    },
+    {
+      "id": 4,
+      "name": "修改字母颜色",
+      "description": "将字母'n'的颜色改为蓝色",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999651.png",
+      "prompt": "将字母'n'的颜色修改为纯蓝色，保持字母的字体和形状不变，颜色要均匀饱满",
+      "negative_prompt": "颜色不均匀，字母变形，边界模糊",
+      "filename": "change_letter_color.png"
+    },
+    {
+      "id": 5,
+      "name": "人像闭眼修改",
+      "description": "让人物闭上眼睛",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999657.png",
+      "prompt": "让她闭上眼睛，保持面部表情自然，就像在正常眨眼一样，头发和脸部轮廓保持不变",
+      "negative_prompt": "表情僵硬，眼睛变形，脸部扭曲",
+      "filename": "close_eyes.png"
+    },
+    {
+      "id": 6,
+      "name": "人物姿态调整",
+      "description": "将人物改为站立姿势并与狗互动",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999925.png",
+      "prompt": "将图中的人物改为站立姿势，弯腰握住狗的前爪，保持人物和狗的相对位置自然，动作要协调友好",
+      "negative_prompt": "姿态不自然，人物变形，狗的位置异常",
+      "filename": "change_pose_stand_with_dog.png"
+    }
+  ],
+  "usage": {
+    "batch_processing": "python batch_image_edit.py examples/qwen_edit_demo.json",
+    "dry_run_mode": "python batch_image_edit.py examples/qwen_edit_demo.json --dry-run",
+    "custom_output": "python batch_image_edit.py examples/qwen_edit_demo.json -o ./qwen_demo_results",
+    "single_examples": [
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999647.png \"在企鹅前方添加一个小型木制标牌，上面写着'Welcome to Penguin Beach'\" --model qwen-image-edit",
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999649.png \"删除餐盘上的头发，保持餐盘整洁\" --model qwen-image-edit",
+      "python image_edit.py https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p999696.png \"把桃子变成红色的苹果\" --model qwen-image-edit"
+    ]
+  }
+}
