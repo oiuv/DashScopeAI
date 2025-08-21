@@ -1,0 +1,27 @@
+{
+  "project_name": "千问图像编辑-文字替换示例",
+  "description": "使用通义千问-图像编辑功能进行文字替换和人物修改，展示中文文字渲染和人物替换效果",
+  "model": "qwen-image-edit",
+  "output_directory": "./batch_output/qwen_image_edit_results",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p1000025.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "文字替换-社团名称",
+      "prompt": "把“霓裳汉服社”改成“通义实验室”",
+      "filename": "text_replace_club_name.png"
+    },
+    {
+      "id": 2,
+      "name": "文字替换-优惠信息",
+      "prompt": "把 “活动全程免费”改为“只给学生打折”",
+      "filename": "text_replace_discount_info.png"
+    },
+    {
+      "id": 3,
+      "name": "人物替换-汉服男子",
+      "prompt": "把女人改成穿汉服的男人",
+      "filename": "person_replace_man_in_hanfu.png"
+    }
+  ]
+}
