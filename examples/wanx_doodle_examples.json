@@ -1,0 +1,32 @@
+{
+  "project_name": "万相线稿生图功能示例",
+  "description": "使用万相线稿生图功能，从线稿生成完整图像，包含北欧极简风格和二次元动漫风格",
+  "model": "wanx2.1-imageedit",
+  "function": "doodle",
+  "output_directory": "./batch_output/wanx_doodle_results",
+  "creations": [
+    {
+      "id": 1,
+      "name": "北欧极简客厅线稿",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930074.png",
+      "prompt": "北欧极简风格的客厅。",
+      "filename": "doodle_nordic_minimalist_living_room.png"
+    },
+    {
+      "id": 2,
+      "name": "动漫树木线稿增强",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p943021.png",
+      "prompt": "一颗树，二次元动漫风格。",
+      "is_sketch": true,
+      "filename": "doodle_tree_anime_sketch_true.png"
+    },
+    {
+      "id": 3,
+      "name": "动漫树木标准渲染",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p943021.png",
+      "prompt": "一颗树，二次元动漫风格。",
+      "is_sketch": false,
+      "filename": "doodle_tree_anime_sketch_false.png"
+    }
+  ]
+}

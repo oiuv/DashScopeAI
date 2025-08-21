@@ -1,0 +1,50 @@
+{
+  "project_name": "万相扩图功能示例",
+  "description": "使用万相扩图功能，在四个方向按比例扩展图像，展示不同扩展比例的效果",
+  "model": "wanx2.1-imageedit",
+  "function": "expand",
+  "output_directory": "./batch_output/wanx_expand_results",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930529.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "扩图_等比例1倍",
+      "prompt": "一家人在公园草坪上。",
+      "top_scale": 1.0,
+      "bottom_scale": 1.0,
+      "left_scale": 1.0,
+      "right_scale": 1.0,
+      "filename": "expand_1x1x1x1.png"
+    },
+    {
+      "id": 2,
+      "name": "扩图_等比例1.5倍",
+      "prompt": "一家人在公园草坪上。",
+      "top_scale": 1.5,
+      "bottom_scale": 1.5,
+      "left_scale": 1.5,
+      "right_scale": 1.5,
+      "filename": "expand_1.5x1.5x1.5x1.5.png"
+    },
+    {
+      "id": 3,
+      "name": "扩图_等比例2倍",
+      "prompt": "一家人在公园草坪上。",
+      "top_scale": 2.0,
+      "bottom_scale": 2.0,
+      "left_scale": 2.0,
+      "right_scale": 2.0,
+      "filename": "expand_2x2x2x2.png"
+    },
+    {
+      "id": 4,
+      "name": "扩图_混合比例",
+      "prompt": "一家人在公园草坪上。",
+      "top_scale": 1.0,
+      "bottom_scale": 2.0,
+      "left_scale": 1.5,
+      "right_scale": 2.0,
+      "filename": "expand_mixed_directions.png"
+    }
+  ]
+}

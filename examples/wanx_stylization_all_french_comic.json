@@ -1,0 +1,57 @@
+{
+  "project_name": "万相全局风格化-法国绘本风格",
+  "description": "使用万相全局风格化功能，将图片转换为法国绘本风格，展示三种不同修改幅度的效果对比",
+  "model": "wanx2.1-imageedit",
+  "function": "stylization_all",
+  "output_directory": "./batch_output/wanx_stylization_all_french_comic",
+  "creations": [
+    {
+      "id": 1,
+      "name": "法国绘本_最小强度_01",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930009.png",
+      "prompt": "转换成法国绘本风格",
+      "strength": 0.0,
+      "filename": "french_comic_min_strength.png"
+    },
+    {
+      "id": 2,
+      "name": "法国绘本_标准强度_01",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930009.png",
+      "prompt": "转换成法国绘本风格",
+      "strength": 0.5,
+      "filename": "french_comic_default_strength.png"
+    },
+    {
+      "id": 3,
+      "name": "法国绘本_最大强度_01",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930009.png",
+      "prompt": "转换成法国绘本风格",
+      "strength": 1.0,
+      "filename": "french_comic_max_strength.png"
+    },
+    {
+      "id": 4,
+      "name": "法国绘本_最小强度_02",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930016.png",
+      "prompt": "转换成法国绘本风格",
+      "strength": 0.0,
+      "filename": "french_comic_min_strength_2.png"
+    },
+    {
+      "id": 5,
+      "name": "法国绘本_标准强度_02",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930016.png",
+      "prompt": "转换成法国绘本风格",
+      "strength": 0.5,
+      "filename": "french_comic_default_strength_2.png"
+    },
+    {
+      "id": 6,
+      "name": "法国绘本_最大强度_02",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930016.png",
+      "prompt": "转换成法国绘本风格",
+      "strength": 1.0,
+      "filename": "french_comic_max_strength_2.png"
+    }
+  ]
+}

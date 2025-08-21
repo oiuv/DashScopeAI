@@ -1,0 +1,49 @@
+{
+  "project_name": "万相局部重绘-增改删完整示例",
+  "description": "使用万相局部重绘功能展示增加、修改、删除三种操作：给小狗添加帽子、修改陶瓷兔子、删除小熊",
+  "model": "wanx2.1-imageedit",
+  "function": "description_edit_with_mask",
+  "output_directory": "./batch_output/wanx_description_edit_with_mask_examples",
+  "creations": [
+    {
+      "id": 1,
+      "name": "小狗添加帽子",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929600",
+      "mask_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929603.png",
+      "prompt": "给小狗添加一顶帽子。",
+      "filename": "dog_add_hat.png"
+    },
+    {
+      "id": 2,
+      "name": "小狗戴帽子",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929600.png",
+      "mask_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929603.png",
+      "prompt": "一只戴着帽子的小狗",
+      "filename": "dog_with_hat.png"
+    },
+    {
+      "id": 3,
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p930480.png",
+      "mask_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930481.png",
+      "name": "陶瓷兔子抱花",
+      "prompt": "一只陶瓷兔子抱着一朵陶瓷花。",
+      "filename": "rabbit_with_flower.png"
+    },
+    {
+      "id": 4,
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p930480.png",
+      "mask_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930481.png",
+      "name": "兔子换胡萝卜",
+      "prompt": "将陶瓷兔子抱着的胡萝卜换做陶瓷花",
+      "filename": "rabbit_replace_carrot.png"
+    },
+    {
+      "id": 5,
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930483.png",
+      "mask_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930484.png",
+      "name": "小熊删除",
+      "prompt": "一个透明玻璃花瓶放在桌子上。",
+      "filename": "vase_on_table.png"
+    }
+  ]
+}

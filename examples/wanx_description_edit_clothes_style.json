@@ -1,0 +1,31 @@
+{
+  "project_name": "万相指令编辑-修改服装风格示例",
+  "description": "使用万相指令编辑功能进行元素修改操作，将女孩的衣服修改为彩色印花的沙滩衬衣，展示三种不同修改幅度的效果对比",
+  "model": "wanx2.1-imageedit",
+  "function": "description_edit",
+  "output_directory": "./batch_output/wanx_description_edit_clothes_style",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p942929.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "修改服装_最小强度",
+      "prompt": "将女孩穿的衣服修改为彩色印花的沙滩衬衣",
+      "strength": 0.0,
+      "filename": "girl_colorful_beach_shirt_min_strength.png"
+    },
+    {
+      "id": 2,
+      "name": "修改服装_标准强度",
+      "prompt": "将女孩穿的衣服修改为彩色印花的沙滩衬衣",
+      "strength": 0.5,
+      "filename": "girl_colorful_beach_shirt_default_strength.png"
+    },
+    {
+      "id": 3,
+      "name": "修改服装_最大强度",
+      "prompt": "将女孩穿的衣服修改为彩色印花的沙滩衬衣",
+      "strength": 1.0,
+      "filename": "girl_colorful_beach_shirt_max_strength.png"
+    }
+  ]
+}

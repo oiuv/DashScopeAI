@@ -1,0 +1,23 @@
+{
+  "project_name": "万相去文字水印示例",
+  "description": "使用万相去文字水印功能，去除图像中的中英文文字和水印标识",
+  "model": "wanx2.1-imageedit",
+  "function": "remove_watermark",
+  "output_directory": "./batch_output/wanx_remove_watermark_results",
+  "creations": [
+    {
+      "id": 1,
+      "name": "去除文字_图片1",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929628.png",
+      "prompt": "去除图像中的文字",
+      "filename": "image1_remove_text.png"
+    },
+    {
+      "id": 2,
+      "name": "去除水印_图片2",
+      "image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929622.png",
+      "prompt": "去除图像中的文字水印",
+      "filename": "image2_remove_watermark.png"
+    }
+  ]
+}

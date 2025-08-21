@@ -1,0 +1,66 @@
+{
+  "project_name": "万相局部风格化-8种风格演示",
+  "description": "使用万相局部风格化功能，将图片中的房子转换为8种不同风格：冰雕、云朵、花灯、木板、青花瓷、毛茸茸、毛线、气球",
+  "model": "wanx2.1-imageedit",
+  "function": "stylization_local",
+  "output_directory": "./batch_output/wanx_stylization_local_8_styles",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p930030.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "局部冰雕风格",
+      "prompt": "把房子变成冰雕风格",
+      "style": "ice",
+      "filename": "house_ice_style.png"
+    },
+    {
+      "id": 2,
+      "name": "局部云朵风格",
+      "prompt": "把房子变成云朵风格",
+      "style": "cloud",
+      "filename": "house_cloud_style.png"
+    },
+    {
+      "id": 3,
+      "name": "局部花灯风格",
+      "prompt": "把房子变成花灯风格",
+      "style": "chinese festive lantern",
+      "filename": "house_lantern_style.png"
+    },
+    {
+      "id": 4,
+      "name": "局部木板风格",
+      "prompt": "把房子变成木板风格",
+      "style": "wooden",
+      "filename": "house_wooden_style.png"
+    },
+    {
+      "id": 5,
+      "name": "局部青花瓷风格",
+      "prompt": "把房子变成青花瓷风格",
+      "style": "blue and white porcelain",
+      "filename": "house_porcelain_style.png"
+    },
+    {
+      "id": 6,
+      "name": "局部毛茸茸风格",
+      "prompt": "把房子变成毛茸茸风格",
+      "style": "fluffy",
+      "filename": "house_fluffy_style.png"
+    },
+    {
+      "id": 7,
+      "name": "局部毛线风格",
+      "prompt": "把房子变成毛线风格",
+      "style": "weaving",
+      "filename": "house_weaving_style.png"
+    },
+    {
+      "id": 8,
+      "name": "局部气球风格",
+      "prompt": "把房子变成气球风格",
+      "style": "balloon",
+      "filename": "house_balloon_style.png"
+    }
+  ]
+}

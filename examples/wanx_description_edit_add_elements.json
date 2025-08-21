@@ -1,0 +1,31 @@
+{
+  "project_name": "万相指令编辑-添加元素示例",
+  "description": "使用万相指令编辑功能进行添加元素操作，为小猫添加墨镜，展示三种不同修改幅度的效果对比",
+  "model": "wanx2.1-imageedit",
+  "function": "description_edit",
+  "output_directory": "./batch_output/wanx_description_edit_add_elements",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p942858.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "添加墨镜_最小强度",
+      "prompt": "给小猫添加一副墨镜",
+      "strength": 0.0,
+      "filename": "cat_add_sunglasses_min_strength.png"
+    },
+    {
+      "id": 2,
+      "name": "添加墨镜_标准强度",
+      "prompt": "给小猫添加一副墨镜",
+      "strength": 0.5,
+      "filename": "cat_add_sunglasses_default_strength.png"
+    },
+    {
+      "id": 3,
+      "name": "添加墨镜_最大强度",
+      "prompt": "给小猫添加一副墨镜",
+      "strength": 1.0,
+      "filename": "cat_add_sunglasses_max_strength.png"
+    }
+  ]
+}

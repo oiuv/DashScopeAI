@@ -75,6 +75,8 @@ def process_single_creation(editor: ImageEditor, creation: Dict[str, Any], defau
                 params['bottom_scale'] = creation.get('bottom_scale', 1.0)
                 params['left_scale'] = creation.get('left_scale', 1.0)
                 params['right_scale'] = creation.get('right_scale', 1.0)
+            if creation.get('mask_image'):
+                params['mask_image_url'] = creation['mask_image']
         
         # 执行编辑
         result = editor.edit_image(**params)

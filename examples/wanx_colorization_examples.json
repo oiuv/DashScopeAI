@@ -1,0 +1,28 @@
+{
+  "project_name": "万相图像上色功能示例",
+  "description": "使用万相图像上色功能将黑白图像转化为彩色图像",
+  "model": "wanx2.1-imageedit",
+  "function": "colorization",
+  "output_directory": "./batch_output/wanx_colorization_results",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929637.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "蓝色叶子上色",
+      "prompt": "蓝色背景，黄色的叶子。",
+      "filename": "colorization_blue_bg_yellow_leaves.png"
+    },
+    {
+      "id": 2,
+      "name": "绿色草地红色叶子",
+      "prompt": "绿色草地，红色叶子，蓝天背景",
+      "filename": "colorization_green_grass_red_leaves.png"
+    },
+    {
+      "id": 3,
+      "name": "秋天金黄色调",
+      "prompt": "秋天金黄色调，橙色叶子，温暖阳光",
+      "filename": "colorization_autumn_golden_tone.png"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "project_name": "万相参考卡通形象生图功能示例",
+  "description": "使用万相参考卡通形象生图功能，基于卡通形象生成新场景和动作",
+  "model": "wanx2.1-imageedit",
+  "function": "control_cartoon_feature",
+  "output_directory": "./batch_output/wanx_control_cartoon_feature_results",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929648.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "卡通形象窥视宝石",
+      "prompt": "卡通形象小心翼翼地探出头，窥视着房间内一颗璀璨的蓝色宝石。",
+      "filename": "cartoon_feature_peeking_gem.png"
+    },
+    {
+      "id": 2,
+      "name": "松鼠抱松果树枝上",
+      "prompt": "卡通松鼠抱着松果坐在树枝上，阳光透过树叶洒下斑驳光影",
+      "filename": "cartoon_squirrel_with_pinecone.png"
+    },
+    {
+      "id": 3,
+      "name": "松鼠雪地堆雪人",
+      "prompt": "卡通松鼠在雪地里堆雪人，戴着红色围巾和毛绒帽子",
+      "filename": "cartoon_squirrel_winter_scene.png"
+    }
+  ]
+}

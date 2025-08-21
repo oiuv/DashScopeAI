@@ -1,0 +1,38 @@
+{
+  "project_name": "万相图像超分功能示例",
+  "description": "使用万相图像超分功能，将低分辨率图像高清放大并增强细节，展示不同放大倍数的效果",
+  "model": "wanx2.1-imageedit",
+  "function": "super_resolution",
+  "output_directory": "./batch_output/wanx_super_resolution_results",
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930079.png",
+  "creations": [
+    {
+      "id": 1,
+      "name": "超分1倍原始画质",
+      "prompt": "图片超分",
+      "upscale_factor": 1,
+      "filename": "super_resolution_factor_1.png"
+    },
+    {
+      "id": 2,
+      "name": "超分2倍高清增强",
+      "prompt": "图片超分",
+      "upscale_factor": 2,
+      "filename": "super_resolution_factor_2.png"
+    },
+    {
+      "id": 3,
+      "name": "超分3倍极致清晰",
+      "prompt": "图片超分",
+      "upscale_factor": 3,
+      "filename": "super_resolution_factor_3.png"
+    },
+    {
+      "id": 4,
+      "name": "超分4倍超高分辨率",
+      "prompt": "图片超分",
+      "upscale_factor": 4,
+      "filename": "super_resolution_factor_4.png"
+    }
+  ]
+}
