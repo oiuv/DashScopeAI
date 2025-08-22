@@ -130,17 +130,17 @@ class ImageEditRequest(BaseModel):
 
 class ImageResult(BaseModel):
     """图像结果模型"""
-    orig_prompt: str = Field(..., description="原始的输入prompt")
-    actual_prompt: Optional[str] = Field(None, description="开启prompt智能改写后，实际使用的prompt")
     url: str = Field(..., description="模型生成图片的URL地址，有效期为24小时")
+    orig_prompt: Optional[str] = Field(None, description="原始的输入prompt")
+    actual_prompt: Optional[str] = Field(None, description="开启prompt智能改写后，实际使用的prompt")
     code: Optional[str] = Field(None, description="错误码，部分任务执行失败时会返回该字段")
     message: Optional[str] = Field(None, description="错误信息，部分任务执行失败时会返回该字段")
 
 
 class ImageGenerationResponse(BaseModel):
     """图像生成响应模型"""
-    task_id: str = Field(..., description="任务ID")
-    task_status: TaskStatus = Field(..., description="任务状态")
+    task_id: Optional[str] = Field(None, description="任务ID")
+    task_status: Optional[TaskStatus] = Field(None, description="任务状态")
     submit_time: Optional[str] = Field(None, description="任务提交时间")
     scheduled_time: Optional[str] = Field(None, description="任务执行时间")
     end_time: Optional[str] = Field(None, description="任务完成时间")
@@ -172,3 +172,38 @@ class ImageGenerationError(BaseModel):
     code: str = Field(..., description="错误码")
     message: str = Field(..., description="错误信息")
     request_id: Optional[str] = Field(None, description="请求唯一标识")
+
+
+class StyleRepaintRequest(BaseModel):
+    """人像风格重绘请求模型"""
+    model: str = Field(default="wanx-style-repaint-v1", description="模型名称")
+    image_url: str = Field(..., description="输入人物图像URL或Base64")
+    style_index: int = Field(..., description="风格选择：-1为自定义风格，其他为预置风格编号")
+    style_ref_url: Optional[str] = Field(None, description="自定义风格参考图URL，仅style_index=-1时必填")
+    
+    def validate_style_params(self) -> Dict[str, Any]:
+        """验证风格参数"""
+        errors = []
+        
+        # 预置风格验证
+        valid_style_indices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 14, 15, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
+        
+        if self.style_index == -1:
+            # 自定义风格模式
+            if not self.style_ref_url:
+                errors.append("自定义风格模式(style_index=-1)必须提供style_ref_url参数")
+        else:
+            # 预置风格模式
+            if self.style_index not in valid_style_indices:
+                errors.append(f"无效的风格编号: {self.style_index}，有效值为: {valid_style_indices}")
+            if self.style_ref_url:
+                errors.append("预置风格模式下不应提供style_ref_url参数")
+        
+        return {"valid": len(errors) == 0, "errors": errors}
+
+
+class StyleRepaintResponse(BaseModel):
+    """人像风格重绘响应模型"""
+    task_id: str = Field(..., description="任务ID")
+    task_status: TaskStatus = Field(..., description="初始任务状态")
+    request_id: str = Field(..., description="请求唯一标识")

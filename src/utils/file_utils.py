@@ -5,6 +5,8 @@
 
 import json
 import os
+import base64
+import mimetypes
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Union
 
@@ -173,6 +175,36 @@ class PromptFileReader:
                 validated['size'] = '1024*1024'
         
         return validated
+
+
+def encode_file_to_base64(file_path: str) -> str:
+    """
+    将本地文件转换为Base64编码字符串
+    
+    Args:
+        file_path: 本地文件路径
+        
+    Returns:
+        str: Base64编码字符串，格式为 data:{MIME_type};base64,{base64_data}
+        
+    Raises:
+        FileNotFoundError: 文件不存在
+        ValueError: 文件格式不支持
+    """
+    file_path = Path(file_path)
+    if not file_path.exists():
+        raise FileNotFoundError(f"文件不存在: {file_path}")
+    
+    mime_type, _ = mimetypes.guess_type(str(file_path))
+    if not mime_type or not mime_type.startswith("image/"):
+        raise ValueError("不支持的文件格式，请上传图片文件")
+    
+    try:
+        with open(file_path, "rb") as f:
+            encoded_string = base64.b64encode(f.read()).decode('utf-8')
+        return f"data:{mime_type};base64,{encoded_string}"
+    except Exception as e:
+        raise IOError(f"文件读取失败: {e}")
 
 
 class BatchProcessor:

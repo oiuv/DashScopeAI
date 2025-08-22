@@ -374,5 +374,162 @@ Authorization: Bearer {API_KEY}
 
 ---
 
+## 人像风格重绘API
+
+### 万相人像风格重绘 (wanx-style-repaint-v1)
+
+#### 基本信息
+- **接口类型**: 异步接口
+- **HTTP端点**: `POST /api/v1/services/aigc/image-generation/generation`
+- **计费**: 0.12元/张
+- **免费额度**: 500张/180天
+- **必需请求头**: `X-DashScope-Async: enable`
+
+#### 功能概述
+人像风格重绘模型可以将提供的人物照片，转换为多种预设或自定义的艺术风格：
+
+- **预置风格重绘**: 上传人物照片 + 选择风格编号
+- **自定义风格重绘**: 上传人物照片 + 风格参考图
+
+#### 使用模式说明
+预置风格和自定义风格**互斥**，必须选择其中一种模式：
+
+- **预置风格模式**：设置`style_index`为0-40之间的有效值（不包括-1）
+- **自定义风格模式**：设置`style_index = -1`，并提供`style_ref_url`风格参考图
+
+⚠️ **重要警告**：如果同时提供`style_index`和`style_ref_url`且`style_index`未设置为-1，系统可能默认采用预置风格，导致自定义风格不生效。
+
+#### 请求参数
+
+##### 请求体结构
+**预置风格模式：**
+```json
+{
+  "model": "wanx-style-repaint-v1",
+  "input": {
+    "image_url": "https://example.com/person.jpg",
+    "style_index": 3
+  }
+}
+```
+
+**自定义风格模式：**
+```json
+{
+  "model": "wanx-style-repaint-v1",
+  "input": {
+    "image_url": "https://example.com/person.jpg",
+    "style_index": -1,
+    "style_ref_url": "https://example.com/style.jpg"
+  }
+}
+```
+
+##### 参数说明
+| 参数 | 类型 | 必填 | 限制 | 说明 |
+|---|---|---|---|---|
+| `model` | string | 是 | 固定`wanx-style-repaint-v1` | 模型名称 |
+| `input.image_url` | string | 是 | 256×256-5760×3240, ≤10MB | 人物照片URL或Base64 |
+| `input.style_index` | integer | 是 | -1 或具体风格编号 | 风格选择：-1为自定义风格，其他为预置风格编号 |
+| `input.style_ref_url` | string | 条件必填 | 256×256-5760×3240, ≤10MB | 自定义风格参考图URL，仅当`style_index=-1`时必填 |
+
+##### 预置风格编号
+| 编号 | 风格名称 |
+|---|---|
+| 0 | 复古漫画 |
+| 1 | 3D童话 |
+| 2 | 二次元 |
+| 3 | 小清新 |
+| 4 | 未来科技 |
+| 5 | 国画古风 |
+| 6 | 将军百战 |
+| 7 | 炫彩卡通 |
+| 8 | 清雅国风 |
+| 9 | 喜迎新年 |
+| 14 | 国风工笔 |
+| 15 | 恭贺新禧 |
+| 30 | 童话世界 |
+| 31 | 黏土世界 |
+| 32 | 像素世界 |
+| 33 | 冒险世界 |
+| 34 | 日漫世界 |
+| 35 | 3D世界 |
+| 36 | 二次元世界 |
+| 37 | 手绘世界 |
+| 38 | 蜡笔世界 |
+| 39 | 冰箱贴世界 |
+| 40 | 吧唧世界 |
+
+#### 成功响应
+```json
+{
+  "output": {
+    "task_status": "PENDING",
+    "task_id": "xxx"
+  },
+  "request_id": "xxx"
+}
+```
+
+#### 查询结果响应
+```json
+{
+  "request_id": "xxx",
+  "output": {
+    "task_id": "xxx",
+    "task_status": "SUCCEEDED",
+    "submit_time": "2025-08-12 10:55:43.768",
+    "scheduled_time": "2025-08-12 10:55:43.799",
+    "end_time": "2025-08-12 10:55:48",
+    "error_message": "Success",
+    "start_time": "2025-08-12 10:55:43",
+    "style_index": 3,
+    "error_code": 0,
+    "results": [
+      {
+        "url": "https://xxx.png"
+      }
+    ]
+  },
+  "usage": {
+    "image_count": 1
+  }
+}
+```
+
+#### 使用场景
+- **个人形象设计**: 将自拍照转换为不同艺术风格
+- **社交媒体**: 制作个性化头像和封面图
+- **商业应用**: 产品营销中的模特形象多样化
+- **创意设计**: 为设计师提供风格化人像素材
+
+#### 输入图像规范
+
+##### 人物图像要求
+- **分辨率**: 256×256 到 5760×3240 像素
+- **长宽比**: 不超过 2:1
+- **格式**: JPEG, PNG, JPG, BMP, WEBP
+- **大小**: ≤ 10MB
+- **质量要求**: 脸部清晰，人脸比例适中，避免夸张姿势和表情
+
+##### 风格参考图要求
+- **分辨率**: 256×256 到 5760×3240 像素
+- **长宽比**: 不超过 2:1
+- **格式**: JPEG, PNG, JPG, BMP, WEBP
+- **大小**: ≤ 10MB
+
+#### Base64编码格式
+```
+data:{MIME_type};base64,{base64_data}
+```
+
+支持的MIME类型：
+- JPEG: `image/jpeg`
+- PNG: `image/png`
+- BMP: `image/bmp`
+- WEBP: `image/webp`
+
+---
+
 ## 参考链接
 - 官方文档: https://help.aliyun.com/zh/model-studio/

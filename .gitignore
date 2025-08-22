@@ -166,6 +166,7 @@ cython_debug/
 generated_images/
 edited_images/
 test_output/
+repainted_images/
 *.png
 *.jpg
 *.jpeg
@@ -173,8 +174,14 @@ test_output/
 *.tiff
 *.webp
 
-# Logs
+# Result files
+result_*.json
+repainted_images/result_*.json
 *.log
+
+# Keep config files
+!examples/*.json
+!requirements*.txt
 
 # Temporary files
 *.tmp

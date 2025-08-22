@@ -5,16 +5,30 @@
 
 from .text2image import Text2ImageGenerator
 from .image_edit import ImageEditor, QwenImageEditor, WanxImageEditor
-from .models import ImageGenerationRequest, ImageGenerationResponse, ImageEditRequest, ImageEditResponse, WanxEditFunction
+from .style_repaint import StyleRepaintGenerator, style_repaint_preset, style_repaint_custom
+from .models import (
+    ImageGenerationRequest, 
+    ImageGenerationResponse,
+    ImageEditRequest, 
+    ImageEditResponse, 
+    WanxEditFunction,
+    StyleRepaintRequest,
+    StyleRepaintResponse
+)
 
 __all__ = [
     "Text2ImageGenerator",
     "ImageEditor", 
     "QwenImageEditor",
     "WanxImageEditor",
+    "StyleRepaintGenerator",
+    "style_repaint_preset",
+    "style_repaint_custom",
     "ImageGenerationRequest", 
     "ImageGenerationResponse",
     "ImageEditRequest",
     "ImageEditResponse",
-    "WanxEditFunction"
+    "WanxEditFunction",
+    "StyleRepaintRequest",
+    "StyleRepaintResponse"
 ]

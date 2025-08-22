@@ -1,0 +1,46 @@
+{
+  "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p942929.png",
+  "output_dir": "./repainted_images",
+  "tasks": [
+    {
+      "name": "复古漫画风格",
+      "style_index": 0,
+      "output_name": "demo_retro_comic.jpg"
+    },
+    {
+      "name": "3D童话风格",
+      "style_index": 1,
+      "output_name": "demo_3d_fairy.jpg"
+    },
+    {
+      "name": "二次元风格",
+      "style_index": 2,
+      "output_name": "demo_anime.jpg"
+    },
+    {
+      "name": "清雅国风",
+      "style_index": 8,
+      "output_name": "demo_elegant_chinese.jpg"
+    },
+    {
+      "name": "恭贺新禧",
+      "style_index": 15,
+      "output_name": "demo_new_year.jpg"
+    },
+    {
+      "name": "像素世界",
+      "style_index": 32,
+      "output_name": "demo_pixel_world.jpg"
+    },
+    {
+      "name": "3D世界",
+      "style_index": 35,
+      "output_name": "demo_3d_world.jpg"
+    },
+    {
+      "name": "自定义卡通风格",
+      "style_ref": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930018.png",
+      "output_name": "demo_custom_cartoon.jpg"
+    }
+  ]
+}
