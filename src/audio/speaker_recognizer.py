@@ -78,8 +78,38 @@ class SpeakerRecognizer(RecognitionCallback):
     
     def on_event(self, result: RecognitionResult) -> None:
         """识别结果回调"""
-        if result and hasattr(result, 'text') and result.text:
-            print(f"🗣️  识别到: {result.text}")
+        try:
+            # 获取文本内容
+            text = ""
+            
+            # 尝试不同的获取方式
+            if hasattr(result, 'get_sentence') and callable(getattr(result, 'get_sentence')):
+                data = result.get_sentence()
+                if isinstance(data, dict):
+                    text = data.get('text', '')
+                else:
+                    text = str(data)
+            elif hasattr(result, 'sentence') and result.sentence:
+                if isinstance(result.sentence, dict):
+                    text = result.sentence.get('text', '')
+                else:
+                    text = str(result.sentence)
+            elif hasattr(result, 'payload') and result.payload:
+                if isinstance(result.payload, dict):
+                    sentence = result.payload.get('sentence', {})
+                    if isinstance(sentence, dict):
+                        text = sentence.get('text', '')
+                    else:
+                        text = str(sentence)
+            
+            # 清理文本并显示
+            if text and text.strip():
+                text = text.strip()
+                print(f"🗣️  识别到: {text}")
+                
+        except Exception as e:
+            # 静默处理错误，不影响用户体验
+            pass
     
     def list_all_devices(self):
         """列出所有音频设备"""
