@@ -1,0 +1,16 @@
+# Default to LF for all text files
+* text eol=lf
+
+# Windows-specific files use CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Image files as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.bmp binary
+*.tiff binary
+*.webp binary

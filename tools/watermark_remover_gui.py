@@ -1,30 +1,37 @@
 #!/usr/bin/env python3
 """
-千问图像水印去除工具 - 独立GUI应用
-使用阿里云百炼千问-图像编辑模型自动去除图片水印
+雪风AI水印去除工具
+使用万相和通义千问图像编辑模型去除图片水印
+支持批量处理和实时预览
 """
 
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+import json
 import os
+import sys
 import threading
 import requests
 import base64
-import json
 from pathlib import Path
 
+# 添加当前目录到路径
+sys.path.insert(0, str(Path(__file__).parent))
+
+from tools_config import ToolsConfig
 
 class WatermarkRemoverGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("千问图像水印去除工具")
-        self.root.geometry("800x600")
+        self.root.title("雪风AI水印去除工具")
+        self.root.geometry("600x600")
         self.root.resizable(True, True)
         
         # 配置
-        self.api_key = tk.StringVar()
+        self.config = ToolsConfig()
+        self.api_key = tk.StringVar(value=self.config.api_key)
         self.selected_files = []
-        self.output_dir = tk.StringVar(value="./output")
+        self.output_dir = tk.StringVar(value=self.config.output_dir)
         self.is_processing = False
         
         self.setup_ui()
@@ -43,7 +50,7 @@ class WatermarkRemoverGUI:
         ttk.Button(top_frame, text="保存配置", command=self.save_config).pack(side=tk.LEFT, padx=5)
         
         # 中间框架
-        middle_frame = ttk.Frame(self.root, padding="10")
+        middle_frame = ttk.Frame(self.root, padding="5")
         middle_frame.pack(fill=tk.BOTH, expand=True)
         
         # 文件选择区域
@@ -51,64 +58,65 @@ class WatermarkRemoverGUI:
         file_frame.pack(fill=tk.BOTH, expand=True, pady=10)
         
         # 文件列表
-        self.file_listbox = tk.Listbox(file_frame, selectmode=tk.MULTIPLE, height=8)
-        self.file_listbox.pack(fill=tk.BOTH, expand=True, pady=5)
+        self.file_listbox = tk.Listbox(file_frame, selectmode=tk.MULTIPLE, height=4)
+        self.file_listbox.pack(fill=tk.BOTH, expand=True, pady=2)
         
         # 文件操作按钮
         button_frame = ttk.Frame(file_frame)
-        button_frame.pack(fill=tk.X, pady=5)
+        button_frame.pack(fill=tk.X, pady=2)
         
-        ttk.Button(button_frame, text="选择文件", command=self.select_files).pack(side=tk.LEFT, padx=5)
-        ttk.Button(button_frame, text="选择目录", command=self.select_directory).pack(side=tk.LEFT, padx=5)
-        ttk.Button(button_frame, text="清空列表", command=self.clear_files).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="选择文件", command=self.select_files).pack(side=tk.LEFT, padx=2)
+        ttk.Button(button_frame, text="选择目录", command=self.select_directory).pack(side=tk.LEFT, padx=2)
+        ttk.Button(button_frame, text="清空列表", command=self.clear_files).pack(side=tk.LEFT, padx=2)
         
         # 输出目录
-        output_frame = ttk.LabelFrame(middle_frame, text="输出设置", padding="10")
-        output_frame.pack(fill=tk.X, pady=10)
+        output_frame = ttk.LabelFrame(middle_frame, text="输出设置", padding="5")
+        output_frame.pack(fill=tk.X, pady=5)
         
-        ttk.Label(output_frame, text="输出目录:").pack(side=tk.LEFT, padx=5)
-        ttk.Entry(output_frame, textvariable=self.output_dir, width=50).pack(side=tk.LEFT, padx=5)
-        ttk.Button(output_frame, text="选择目录", command=self.select_output_dir).pack(side=tk.LEFT, padx=5)
+        ttk.Label(output_frame, text="输出目录:").pack(side=tk.LEFT, padx=2)
+        ttk.Entry(output_frame, textvariable=self.output_dir, width=40).pack(side=tk.LEFT, padx=2)
+        ttk.Button(output_frame, text="选择目录", command=self.select_output_dir).pack(side=tk.LEFT, padx=2)
         
         # 进度区域
-        progress_frame = ttk.LabelFrame(middle_frame, text="处理进度", padding="10")
-        progress_frame.pack(fill=tk.X, pady=10)
+        progress_frame = ttk.LabelFrame(middle_frame, text="处理进度", padding="5")
+        progress_frame.pack(fill=tk.X, pady=5)
         
         self.progress_bar = ttk.Progressbar(progress_frame, mode='determinate')
-        self.progress_bar.pack(fill=tk.X, pady=5)
+        self.progress_bar.pack(fill=tk.X, pady=2)
         
         self.status_label = ttk.Label(progress_frame, text="就绪")
         self.status_label.pack()
         
         # 底部按钮
-        bottom_frame = ttk.Frame(self.root, padding="10")
+        bottom_frame = ttk.Frame(self.root, padding="5")
         bottom_frame.pack(fill=tk.X)
         
-        ttk.Button(bottom_frame, text="开始处理", command=self.start_processing).pack(side=tk.LEFT, padx=5)
-        ttk.Button(bottom_frame, text="停止处理", command=self.stop_processing).pack(side=tk.LEFT, padx=5)
-        ttk.Button(bottom_frame, text="退出", command=self.root.quit).pack(side=tk.RIGHT, padx=5)
+        ttk.Button(bottom_frame, text="开始处理", command=self.start_processing).pack(side=tk.LEFT, padx=2)
+        ttk.Button(bottom_frame, text="停止处理", command=self.stop_processing).pack(side=tk.LEFT, padx=2)
+        ttk.Button(bottom_frame, text="退出", command=self.root.quit).pack(side=tk.RIGHT, padx=2)
     
     def load_config(self):
-        """加载配置文件"""
-        config_file = Path("watermark_remover_config.json")
-        if config_file.exists():
-            try:
-                with open(config_file, 'r', encoding='utf-8') as f:
-                    config = json.load(f)
-                    self.api_key.set(config.get('api_key', ''))
-                    self.output_dir.set(config.get('output_dir', './output'))
-            except Exception as e:
-                print(f"加载配置失败: {e}")
+        """加载配置"""
+        try:
+            if not self.config.api_key:
+                messagebox.showwarning("警告", "请先设置API密钥")
+        except Exception as e:
+            messagebox.showerror("错误", f"加载配置失败: {e}")
     
     def save_config(self):
-        """保存配置文件"""
-        config = {
-            'api_key': self.api_key.get(),
-            'output_dir': self.output_dir.get()
-        }
+        """保存配置"""
         try:
-            with open("watermark_remover_config.json", 'w', encoding='utf-8') as f:
-                json.dump(config, f, indent=2)
+            # 保存API密钥
+            api_key = self.api_key.get().strip()
+            if api_key:
+                self.config.api_key = api_key
+            
+            # 保存输出目录
+            self.config.output_dir = self.output_dir.get()
+            
+            # 保存到文件
+            self.config.save_config()
+            
             messagebox.showinfo("成功", "配置已保存")
         except Exception as e:
             messagebox.showerror("错误", f"保存配置失败: {e}")

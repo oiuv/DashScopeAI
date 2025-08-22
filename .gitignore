@@ -201,3 +201,7 @@ Thumbs.db
 secrets.txt
 config.local.py
 watermark_remover_config.json
+tools/tools_config.json
+.env
+.env.local
+.env.*.local

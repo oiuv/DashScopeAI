@@ -1,0 +1,7 @@
+# 海报生成器GUI工具依赖
+requests>=2.25.0
+pillow>=8.0.0
+
+# 可选：用于额外功能
+dashscope>=1.10.0
+tkinter-tooltip>=2.0.0
