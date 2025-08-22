@@ -48,8 +48,43 @@ class MicrophoneRecognizer(RecognitionCallback):
     
     def on_event(self, result: RecognitionResult) -> None:
         """识别结果回调"""
-        if result and hasattr(result, 'text') and result.text:
-            print(f"🎯 你说: {result.text}")
+        try:
+            # 获取文本内容
+            text = ""
+            
+            # 尝试不同的获取方式
+            if hasattr(result, 'get_sentence') and callable(getattr(result, 'get_sentence')):
+                data = result.get_sentence()
+                if isinstance(data, dict):
+                    text = data.get('text', '')
+                else:
+                    text = str(data)
+            elif hasattr(result, 'sentence') and result.sentence:
+                if isinstance(result.sentence, dict):
+                    text = result.sentence.get('text', '')
+                else:
+                    text = str(result.sentence)
+            elif hasattr(result, 'payload') and result.payload:
+                if isinstance(result.payload, dict):
+                    sentence = result.payload.get('sentence', {})
+                    if isinstance(sentence, dict):
+                        text = sentence.get('text', '')
+                    else:
+                        text = str(sentence)
+            
+            # 清理文本并显示
+            if text and text.strip():
+                text = text.strip()
+                # 日志输出完整信息（调试用）
+                import logging
+                logging.debug(f"原始识别数据: {result}")
+                # 界面只显示关键内容
+                print(f"🎯 你说: {text}")
+                
+        except Exception as e:
+            # 静默处理错误，不影响用户体验
+            import logging
+            logging.debug(f"识别错误: {e}, 原始数据: {result}")
     
     def list_microphones(self):
         """列出可用的麦克风设备"""
