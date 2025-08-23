@@ -46,6 +46,13 @@ class ToolsConfig:
                 },
                 "watermark_remover": {
                     "model": "qwen-image-edit"
+                },
+                "sketch_to_image": {
+                    "model": "wanx-sketch-to-image-lite",
+                    "default_style": "自动",
+                    "default_size": "768×768 (正方形)",
+                    "default_n": 1,
+                    "default_weight": 5
                 }
             }
         }
