@@ -28,22 +28,22 @@ def print_banner(title: str, subtitle: str = "", width: int = 60):
 
 def print_success(message: str):
     """打印成功消息"""
-    print(f"✅ {message}")
+    print(f"[OK] {message}")
 
 
 def print_error(message: str):
     """打印错误消息"""
-    print(f"❌ {message}")
+    print(f"[ERROR] {message}")
 
 
 def print_warning(message: str):
     """打印警告消息"""
-    print(f"⚠️  {message}")
+    print(f"[WARN] {message}")
 
 
 def print_info(message: str):
     """打印信息消息"""
-    print(f"📋 {message}")
+    print(f"[INFO] {message}")
 
 
 def print_progress(current: int, total: int, prefix: str = ""):

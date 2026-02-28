@@ -61,8 +61,8 @@ def add_arguments(parser):
     )
     parser.add_argument(
         "-o", "--output",
-        default="./output",
-        help="输出目录"
+        default="./output/images/sketched",
+        help="输出目录 (默认：./output/images/sketched)"
     )
     parser.add_argument(
         "-k", "--api-key",

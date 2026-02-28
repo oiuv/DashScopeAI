@@ -3,7 +3,7 @@
   "description": "使用万相扩图功能，在四个方向按比例扩展图像，展示不同扩展比例的效果",
   "model": "wanx2.1-imageedit",
   "function": "expand",
-  "output_directory": "./batch_output/wanx_expand_results",
+  "output_directory": "./output/batch/wanx_expand_results",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p930529.png",
   "creations": [
     {

@@ -3,7 +3,7 @@
   "description": "使用万相去文字水印功能，去除图像中的中英文文字和水印标识",
   "model": "wanx2.1-imageedit",
   "function": "remove_watermark",
-  "output_directory": "./batch_output/wanx_remove_watermark_results",
+  "output_directory": "./output/batch/wanx_remove_watermark_results",
   "creations": [
     {
       "id": 1,

@@ -3,7 +3,7 @@
   "description": "使用万相局部风格化功能，将图片中的房子转换为8种不同风格：冰雕、云朵、花灯、木板、青花瓷、毛茸茸、毛线、气球",
   "model": "wanx2.1-imageedit",
   "function": "stylization_local",
-  "output_directory": "./batch_output/wanx_stylization_local_8_styles",
+  "output_directory": "./output/batch/wanx_stylization_local_8_styles",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p930030.png",
   "creations": [
     {

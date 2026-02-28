@@ -48,8 +48,8 @@ def add_arguments(parser):
     )
     parser.add_argument(
         "-o", "--output",
-        default="./repainted_images",
-        help="输出目录 (默认：./repainted_images)"
+        default="./output/images/repainted",
+        help="输出目录 (默认：./output/images/repainted)"
     )
     parser.add_argument(
         "-f", "--file",

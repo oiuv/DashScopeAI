@@ -29,7 +29,7 @@ def main():
     parser.add_argument("--n", type=int, choices=[1, 2, 3, 4], default=1, help="生成数量")
     parser.add_argument("--weight", type=int, choices=range(0, 11), default=5, 
                        help="草图权重，0-10")
-    parser.add_argument("--output", default="./output", help="输出目录")
+    parser.add_argument("--output", default="./output/images/sketched", help="输出目录 (默认：./output/images/sketched)")
     parser.add_argument("--api-key", help="API密钥")
     parser.add_argument("--wait", action="store_true", help="等待完成")
     

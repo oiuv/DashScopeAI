@@ -144,7 +144,7 @@ def main():
     
     # 可选参数（统一短参数格式）
     parser.add_argument("-r", "--style-ref", help="自定义风格参考图路径（与style参数互斥）")
-    parser.add_argument("-o", "--output", default="./repainted_images", 
+    parser.add_argument("-o", "--output", default="./output/images/repainted", 
                        help="输出目录 (默认: ./repainted_images)")
     parser.add_argument("-f", "--file", help="批量处理配置文件路径")
     parser.add_argument("-s", "--styles", action="store_true", help="显示可用风格列表")

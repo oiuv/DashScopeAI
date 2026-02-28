@@ -3,7 +3,7 @@
   "description": "使用万相指令编辑功能进行元素修改操作，将女孩的衣服修改为彩色印花的沙滩衬衣，展示三种不同修改幅度的效果对比",
   "model": "wanx2.1-imageedit",
   "function": "description_edit",
-  "output_directory": "./batch_output/wanx_description_edit_clothes_style",
+  "output_directory": "./output/batch/wanx_description_edit_clothes_style",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p942929.png",
   "creations": [
     {

@@ -25,6 +25,19 @@ src/
 └── chat/            # 对话模型（待开发）
 ```
 
+
+### 输出目录结构
+```
+output/                    # 统一输出目录
+├── images/                # 图像相关
+│   ├── generated/         # 文生图输出
+│   ├── edited/            # 图像编辑输出
+│   ├── repainted/         # 人像重绘输出
+│   └── sketched/          # 涂鸦作画输出
+├── videos/                # 视频相关
+│   └── generated/         # 视频生成输出
+└── batch/                 # 批量处理输出
+```
 ### 关键模型
 - **Text2ImageGenerator**: 图像生成主类，支持同步/异步调用
 - **ImageGenerationRequest**: Pydantic请求模型
@@ -58,7 +71,7 @@ python text2image.py -f examples/prompts.json
 python text2image.py "赛博朋克城市" --model wan2.2-t2i-plus --size 1440*810 --n 2
 
 # 批量处理
-python text2image.py -f examples/prompts.txt --output ./batch_results
+python text2image.py -f examples/prompts.txt --output ./output/images/generated
 ```
 
 ### 测试

@@ -3,7 +3,7 @@
   "description": "使用万相局部重绘功能展示增加、修改、删除三种操作：给小狗添加帽子、修改陶瓷兔子、删除小熊",
   "model": "wanx2.1-imageedit",
   "function": "description_edit_with_mask",
-  "output_directory": "./batch_output/wanx_description_edit_with_mask_examples",
+  "output_directory": "./output/batch/wanx_description_edit_with_mask_examples",
   "creations": [
     {
       "id": 1,

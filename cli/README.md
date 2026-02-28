@@ -244,7 +244,7 @@ python -m cli batch-edit config.json --dry-run
 {
   "project_name": "我的创作集",
   "base_image": "base.jpg",
-  "output_directory": "./output",
+  "output_directory": "./output/batch",
   "creations": [
     {
       "id": 1,

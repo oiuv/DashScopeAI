@@ -3,7 +3,7 @@
   "description": "使用万相线稿生图功能，从线稿生成完整图像，包含北欧极简风格和二次元动漫风格",
   "model": "wanx2.1-imageedit",
   "function": "doodle",
-  "output_directory": "./batch_output/wanx_doodle_results",
+  "output_directory": "./output/batch/wanx_doodle_results",
   "creations": [
     {
       "id": 1,

@@ -3,7 +3,7 @@
   "description": "使用万相全局风格化功能，将图片转换为法国绘本风格，展示三种不同修改幅度的效果对比",
   "model": "wanx2.1-imageedit",
   "function": "stylization_all",
-  "output_directory": "./batch_output/wanx_stylization_all_french_comic",
+  "output_directory": "./output/batch/wanx_stylization_all_french_comic",
   "creations": [
     {
       "id": 1,

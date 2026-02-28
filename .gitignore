@@ -162,11 +162,17 @@ cython_debug/
 .vscode/
 
 # Project specific
-# Generated images and test outputs
-generated_images/
-edited_images/
-test_output/
-repainted_images/
+# Output directory (unified)
+output/
+
+# Legacy directories (for backward compatibility)
+# generated_images/
+# edited_images/
+# repainted_images/
+# generated_videos/
+# batch_output/
+
+# Image formats (only in root, not in output/)
 *.png
 *.jpg
 *.jpeg
@@ -176,7 +182,6 @@ repainted_images/
 
 # Result files
 result_*.json
-repainted_images/result_*.json
 *.log
 
 # Keep config files

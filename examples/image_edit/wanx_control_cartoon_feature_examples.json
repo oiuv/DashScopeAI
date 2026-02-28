@@ -3,7 +3,7 @@
   "description": "使用万相参考卡通形象生图功能，基于卡通形象生成新场景和动作",
   "model": "wanx2.1-imageedit",
   "function": "control_cartoon_feature",
-  "output_directory": "./batch_output/wanx_control_cartoon_feature_results",
+  "output_directory": "./output/batch/wanx_control_cartoon_feature_results",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3971781571/p929648.png",
   "creations": [
     {

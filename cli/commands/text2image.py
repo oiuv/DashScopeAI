@@ -78,8 +78,8 @@ def add_arguments(parser):
 
     parser.add_argument(
         "-o", "--output",
-        default="./generated_images",
-        help="输出目录 (默认：./generated_images)"
+        default="./output/images/generated",
+        help="输出目录 (默认：./output/images/generated)"
     )
 
     parser.add_argument(

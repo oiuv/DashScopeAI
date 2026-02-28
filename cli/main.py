@@ -48,6 +48,11 @@ SUBCOMMANDS = {
         'description': '批量图像编辑工具 - 根据配置文件批量处理图像',
         'module': 'batch_edit',
     },
+    'video': {
+        'help': '视频生成 - 文生视频/图生视频',
+        'description': '阿里百炼视频生成工具 - 支持文生视频、图生视频、首尾帧生视频',
+        'module': 'video',
+    },
 }
 
 
@@ -80,6 +85,9 @@ def get_command_module(module_name: str):
     elif module_name == 'batch_edit':
         from .commands import batch_edit
         return batch_edit
+    elif module_name == 'video':
+        from .commands import video
+        return video
     return None
 
 
@@ -120,6 +128,14 @@ def create_parser() -> argparse.ArgumentParser:
   style-repaint   人像重绘 - 人像风格转换
   speech-rec      语音识别 - 实时语音转文字
   batch-edit      批量编辑 - 批量处理图像编辑任务
+  video           视频生成 - 文生视频/图生视频/特效模板
+
+视频特效模板:
+  通用特效：squish(解压捏捏), rotation(转圈圈), poke(戳戳乐), inflate(气球膨胀), dissolve(分子扩散), melt(热浪融化), icecream(冰淇淋星球)
+  单人/动物：flying(魔法悬浮), rose(赠人玫瑰), crystalrose(闪亮玫瑰)
+  单人特效：carousel(时光木马), singleheart(爱你哟), dance1-5(舞蹈), mermaid(人鱼觉醒), graduation(学术加冕), dragon(巨兽追袭), money(财从天降), jellyfish(水母之约), pupil(瞳孔穿越)
+  双人特效：hug(爱的抱抱), frenchkiss(唇齿相依), coupleheart(双倍心动)
+  首尾帧特效：hanfu-1(唐韵翩然), solaron(机甲变身), magazine(闪耀封面), mech1/2(机械/赛博)
 
 更多信息:
   使用 'python -m cli <子命令> --help' 查看特定子命令的详细帮助

@@ -2,7 +2,7 @@
   "project_name": "千问图像编辑-文字替换示例",
   "description": "使用通义千问-图像编辑功能进行文字替换和人物修改，展示中文文字渲染和人物替换效果",
   "model": "qwen-image-edit",
-  "output_directory": "./batch_output/qwen_image_edit_results",
+  "output_directory": "./output/batch/qwen_image_edit_results",
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/7219965571/p1000025.png",
   "creations": [
     {

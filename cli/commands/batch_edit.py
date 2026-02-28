@@ -66,7 +66,7 @@ def execute(args):
     # 获取基本信息
     base_image = config.get('base_image') or config.get('image')
 
-    output_dir = args.output or config.get('output_directory', './batch_output')
+    output_dir = args.output or config.get('output_directory', './output/batch')
     creations = config.get('creations', [])
 
     if not creations:

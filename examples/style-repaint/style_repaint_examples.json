@@ -1,6 +1,6 @@
 {
   "base_image": "https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/2971781571/p942929.png",
-  "output_dir": "./repainted_images",
+  "output_dir": "./output/images/repainted",
   "tasks": [
     {
       "name": "复古漫画风格",

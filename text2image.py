@@ -104,7 +104,7 @@ def main():
     
     parser.add_argument(
         "-o", "--output",
-        default="./generated_images",
+        default="./output/images/generated",
         help="输出目录 (默认: ./generated_images)"
     )
     

@@ -230,7 +230,7 @@ def main():
     
     parser.add_argument(
         "-o", "--output",
-        default="./edited_images",
+        default="./output/images/edited",
         help="输出目录 (默认: ./edited_images)"
     )
     

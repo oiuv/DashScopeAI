@@ -146,8 +146,8 @@ def add_arguments(parser):
 
     parser.add_argument(
         "-o", "--output",
-        default="./edited_images",
-        help="输出目录 (默认：./edited_images)"
+        default="./output/images/edited",
+        help="输出目录 (默认：./output/images/edited)"
     )
 
     parser.add_argument(
