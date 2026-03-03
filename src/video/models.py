@@ -32,7 +32,8 @@ class ModelType(str, Enum):
     WAN2_1_I2V_PLUS = "wanx2.1-i2v-plus"  # 万相 2.1 专业版图生视频
 
     # 首尾帧生视频
-    WAN2_1_KF2V_PLUS = "wanx2.1-kf2v-plus"  # 万相首尾帧生视频
+    WAN2_2_KF2V_FLASH = "wan2.2-kf2v-flash"  # 万相 2.2 首尾帧生视频（新版）
+    WAN2_1_KF2V_PLUS = "wanx2.1-kf2v-plus"  # 万相 2.1 首尾帧生视频（旧版）
 
     # 视频编辑模型
     WAN2_1_VACE_PLUS = "wanx2.1-vace-plus"  # 万相通用视频编辑
@@ -130,7 +131,8 @@ class VideoGenerationRequest(BaseModel):
                 errors.append("图生视频需要提供 prompt 参数或 template 参数")
 
         # 首尾帧生视频验证
-        if self.model == ModelType.WAN2_1_KF2V_PLUS:
+        kf2v_models = [ModelType.WAN2_1_KF2V_PLUS, "wan2.2-kf2v-flash"]
+        if self.model in kf2v_models:
             if not self.first_frame_url:
                 errors.append("首尾帧生视频需要提供 first_frame_url 参数")
             # 使用特效模板时，只需要 first_frame_url + template
@@ -138,7 +140,9 @@ class VideoGenerationRequest(BaseModel):
                 # 特效模式：只需要首帧图像 + template
                 pass
             else:
-                # 普通模式：需要首帧图像 + prompt（last_frame_url 可选）
+                # 普通模式：需要首帧图像 + 尾帧图像 + prompt
+                if not self.last_frame_url:
+                    errors.append("首尾帧生视频普通模式需要提供 last_frame_url 参数（或使用 template 指定特效）")
                 if not self.prompt:
                     errors.append("首尾帧生视频需要提供 prompt 参数（或使用 template 指定特效）")
 
@@ -174,6 +178,11 @@ class VideoGenerationRequest(BaseModel):
         elif self.model == ModelType.WAN2_1_I2V_TURBO:
             if self.duration not in [3, 4, 5]:
                 errors.append(f"wanx2.1-i2v-turbo 时长只能为 3、4 或 5 秒，当前：{self.duration}")
+
+        # 首尾帧生视频 - 时长固定为5秒
+        elif self.model in [ModelType.WAN2_1_KF2V_PLUS, "wan2.2-kf2v-flash"]:
+            if self.duration != 5:
+                errors.append(f"{self.model} 时长固定为 5 秒，不支持修改")
 
         # shot_type 仅 wan2.6 系列支持
         if self.shot_type and not self.model.startswith("wan2.6"):

@@ -33,9 +33,10 @@ def add_arguments(parser):
 
     # 文生视频：prompt
     # 图生视频：image prompt
-    # 首尾帧：first_frame prompt（尾帧不需要，文档说只需首帧）
+    # 首尾帧：first_frame last_frame prompt（普通模式）或 first_frame template（特效模式）
     parser.add_argument("param1", help="文生视频=prompt; 图生视频=image; 首尾帧=first_frame")
-    parser.add_argument("param2", nargs='?', default=None, help="图生视频=prompt; 首尾帧=prompt（可选）")
+    parser.add_argument("param2", nargs='?', default=None, help="图生视频=prompt; 首尾帧=last_frame 或 prompt")
+    parser.add_argument("param3", nargs='?', default=None, help="首尾帧=prompt（当提供尾帧时）")
 
     # 共享参数
     parser.add_argument(
@@ -48,7 +49,7 @@ def add_arguments(parser):
             "wan2.6-i2v-flash", "wan2.6-i2v", "wan2.6-i2v-us", "wan2.5-i2v-preview",
             "wan2.2-i2v-plus", "wan2.2-i2v-flash", "wanx2.1-i2v-turbo", "wanx2.1-i2v-plus",
             # 首尾帧
-            "wanx2.1-kf2v-plus"
+            "wan2.2-kf2v-flash", "wanx2.1-kf2v-plus"
         ],
         default="wan2.6-t2v",
         help="模型选择"
@@ -192,7 +193,15 @@ def execute(args):
         args.prompt = args.param2
     elif video_mode == 'first-last-frame':
         args.first_frame = args.param1
-        args.prompt = args.param2
+        # 根据是否有 template 判断模式
+        if args.template:
+            # 特效模式：只需要 first_frame + template
+            args.last_frame = None
+            args.prompt = args.param2  # 可选
+        else:
+            # 普通模式：first_frame + last_frame + prompt
+            args.last_frame = args.param2
+            args.prompt = args.param3
 
     # 处理 prompt_extend 参数
     if args.no_prompt_extend:
@@ -410,24 +419,42 @@ def process_first_last_frame_effect(generator: VideoGenerator, args) -> int:
 
 
 def process_first_last_frame_normal(generator: VideoGenerator, args) -> int:
-    """处理首尾帧生视频 - 普通模式（带 prompt）"""
-    print_info(f"正在从首帧生成视频")
+    """处理首尾帧生视频 - 普通模式（首帧 + 尾帧 + prompt）"""
+    print_info(f"正在从首尾帧生成视频")
     print_info(f"首帧：{args.first_frame}")
+    if args.last_frame:
+        print_info(f"尾帧：{args.last_frame}")
+    else:
+        print_warning("未提供尾帧，将仅使用首帧生成")
     print_info(f"提示词：{args.prompt}")
     print_info(f"使用模型：{args.model}")
     print_info(f"分辨率档位：{args.resolution}")
+    if args.negative:
+        print_info(f"反向提示：{args.negative}")
 
     try:
         result = generator.generate_first_last_frame(
             first_frame_url=args.first_frame,
+            last_frame_url=args.last_frame,
             prompt=args.prompt,
             resolution=args.resolution,
-            duration=args.duration,
+            duration=5,  # 首尾帧生视频时长固定为5秒
             prompt_extend=args.prompt_extend,
             watermark=args.watermark,
             seed=args.seed,
+            negative_prompt=args.negative,
             model=args.model,
         )
+
+        return handle_result(generator, result, args)
+
+    except TimeoutError as e:
+        print_error(f"超时：{e}")
+        print_info(f"任务 ID 仍有效，可使用任务 ID 继续查询")
+        return 1
+    except Exception as e:
+        print_error(f"生成失败：{e}")
+        return 1
 
         return handle_result(generator, result, args)
 

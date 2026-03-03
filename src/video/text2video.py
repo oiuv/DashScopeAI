@@ -353,47 +353,52 @@ class VideoGenerator:
         self,
         first_frame_url: str,
         prompt: Optional[str] = None,
-        resolution: str = "1080P",
+        resolution: str = "720P",
         duration: int = 5,
         prompt_extend: bool = True,
         watermark: bool = False,
         seed: Optional[int] = None,
-        model: str = "wanx2.1-kf2v-plus",
+        last_frame_url: Optional[str] = None,
+        negative_prompt: Optional[str] = None,
+        model: str = "wan2.2-kf2v-flash",
         template: Optional[str] = None,
         **kwargs
     ) -> VideoGenerationResponse:
         """
-        生成视频（同步方法）- 首尾帧生视频（基于首帧的视频特效）
+        生成视频（同步方法）- 首尾帧生视频
 
         Args:
             first_frame_url: 首帧图片 URL（支持 http/https/file/data/oss 协议，必填）
             prompt: 正向提示词（使用 template 时可不填）
             resolution: 视频分辨率档位（480P/720P/1080P）
-            duration: 视频时长（秒）
+            duration: 视频时长（秒），首尾帧生视频固定为5秒
             prompt_extend: 是否开启智能改写
             watermark: 是否添加水印
             seed: 随机种子
-            model: 模型名称（默认：wanx2.1-kf2v-plus）
-            template: 视频特效模板名称（使用特效时 prompt 可留空）
+            last_frame_url: 尾帧图片 URL（普通模式必填，特效模式忽略）
+            negative_prompt: 反向提示词（可选）
+            model: 模型名称（默认：wan2.2-kf2v-flash）
+            template: 视频特效模板名称（使用特效时不需要 prompt 和 last_frame）
             **kwargs: 其他参数
 
         Returns:
             VideoGenerationResponse: 生成结果
 
         Note:
-            根据官方文档，首尾帧生视频的特效功能仅需提供首帧图像即可生成，
-            无需提供尾帧图像。若同时提供 first_frame_url、last_frame_url、template，
-            将忽略 last_frame_url。
+            普通模式：需要提供 first_frame_url + last_frame_url + prompt
+            特效模式：只需要提供 first_frame_url + template
         """
         request = VideoGenerationRequest(
             model=model,
             first_frame_url=first_frame_url,
+            last_frame_url=last_frame_url,
             prompt=prompt,
             resolution=resolution,
             duration=duration,
             prompt_extend=prompt_extend,
             watermark=watermark,
             seed=seed,
+            negative_prompt=negative_prompt,
             template=template,
             **kwargs
         )
